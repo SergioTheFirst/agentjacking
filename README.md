@@ -1,2 +1,0 @@
-# agentjacking
-agentjacking_site
