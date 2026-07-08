@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm ls *)",
+      "Bash(npx --no-install playwright --version)",
+      "Bash('/c/Program Files/Google/Chrome/Application/chrome.exe' --headless=new --remote-debugging-port=9222 --user-data-dir=/c/Users/SERGE/AppData/Local/Temp/claude/C--pro-agentjacking/b1a7fd4c-d99f-4eb2-bbaf-3997942c8e82/scratchpad/cprof --disable-gpu --hide-scrollbars --force-color-profile=srgb --window-size=1440,900 about:blank)",
+      "Bash(echo \"chrome pid $!\")",
+      "Bash(curl -s http://127.0.0.1:9222/json/version)",
+      "Bash(awk '{printf \"index.html = %d bytes \\(%.1f KB\\)\\\\n\", $1, $1/1024}')",
+      "Bash(awk '{print $1\" lines\"}')",
+      "Bash(start *)",
+      "Skill(seo-geo)",
+      "WebSearch"
+    ]
+  }
+}
