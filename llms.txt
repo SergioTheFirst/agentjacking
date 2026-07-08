@@ -1,0 +1,26 @@
+# agentjacking.ru
+
+> A live, endless terminal-style diagram of how an AI agent gets hijacked via indirect prompt injection — and a premium domain name for sale.
+
+## About
+
+agentjacking.ru is a single-page animated diagram explaining **agent hijacking** (indirect prompt injection): the attack chain by which an AI agent's real goal is silently overridden by instructions hidden inside an external source it reads (a webpage, document, tool output, or API response).
+
+## Attack chain shown on this page
+
+1. A user delegates a task to the agent.
+2. The agent reaches into an external, untrusted source to do its job.
+3. An attacker has hidden instructions inside that source.
+4. The poisoned content flows back into the agent's context.
+5. The hidden text overrides the agent's real goal.
+6. The hijacked agent now acts for the attacker instead of the user — exfiltrating data or taking unauthorized actions.
+
+One poisoned input is enough to hijack an agent.
+
+## Pages
+
+- `agentjacking.ru -> https://agentjacking.ru/`: Live diagram of the agent-hijacking / indirect-prompt-injection attack chain.
+
+## Domain for sale
+
+This domain, agentjacking.ru, is for sale. Contact: mss777@mail.ru

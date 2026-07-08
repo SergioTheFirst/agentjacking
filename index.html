@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>agentjacking — a live diagram of agent hijacking</title>
+<meta name="description" content="Agent hijacking (indirect prompt injection): a live diagram of how instructions hidden in an external source override an AI agent's goal. agentjacking.ru — domain for sale.">
+<meta name="keywords" content="agent hijacking, prompt injection, indirect prompt injection, AI agent security, agentjacking, agentjacking.ru, domain for sale">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<link rel="canonical" href="https://agentjacking.ru/">
+<meta name="theme-color" content="#070a0c">
+<meta property="og:type" content="website">
+<meta property="og:title" content="agentjacking">
+<meta property="og:description" content="Agent hijacking (indirect prompt injection): a live diagram of how instructions hidden in an external source override an AI agent's goal. agentjacking.ru — domain for sale.">
+<meta property="og:url" content="https://agentjacking.ru/">
+<meta property="og:site_name" content="agentjacking">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="agentjacking — a live diagram of agent hijacking">
+<meta name="twitter:description" content="Agent hijacking (indirect prompt injection): a live diagram of how instructions hidden in an external source override an AI agent's goal. agentjacking.ru — domain for sale.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23070a0c'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='22' fill='%235eead4' text-anchor='middle'%3E%E2%97%89%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#070a0c; --bg2:#05070800;
+    --teal:#5eead4; --teal-dim:#89b7ac;
+    --amber:#ffb454; --rose:#ff4d6d;
+    --ink:#dff5ef; --mute:#5c6f6b;
+    --mx:50%; --my:40%;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono","Cascadia Code",Menlo,Consolas,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    background:var(--bg); color:var(--ink); font-family:var(--mono);
+    overflow:hidden; position:fixed; inset:0;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    cursor:crosshair;
+  }
+  /* atmosphere layers */
+  .vignette{position:fixed;inset:0;pointer-events:none;z-index:3;
+    background:
+      radial-gradient(120% 90% at var(--mx) var(--my), rgba(94,234,212,.06), transparent 45%),
+      radial-gradient(140% 120% at 50% 46%, transparent 55%, rgba(0,0,0,.55) 100%);
+    mix-blend-mode:screen;}
+  .scan{position:fixed;inset:0;pointer-events:none;z-index:4;opacity:.5;
+    background:repeating-linear-gradient(to bottom, rgba(255,255,255,.028) 0 1px, transparent 1px 3px);
+    animation:roll 8s linear infinite;}
+  @keyframes roll{from{background-position:0 0}to{background-position:0 6px}}
+
+  #stage{position:fixed;inset:0;z-index:1;display:block}
+
+  .layer{position:fixed;z-index:5;pointer-events:none;
+    letter-spacing:.02em;
+    opacity:0; animation:fadein 1.4s .25s ease forwards;}
+  @keyframes fadein{to{opacity:1}}
+
+  /* wordmark top-left */
+  .mark{top:clamp(18px,3.4vh,34px);left:clamp(18px,3.2vw,40px);}
+  .mark b{font-weight:600;font-size:clamp(15px,1.5vw,19px);letter-spacing:.34em;
+    color:var(--ink);text-transform:lowercase;}
+  .mark b i{color:var(--teal);font-style:normal}
+  .mark small{display:block;margin-top:8px;font-size:clamp(9.5px,.86vw,11px);
+    letter-spacing:.26em;text-transform:uppercase;color:var(--mute)}
+
+  /* for-sale badge top-right */
+  .sale{top:clamp(18px,3.4vh,34px);right:clamp(18px,3.2vw,40px);text-align:right;
+    pointer-events:auto;}
+  .sale span{display:block;font-size:clamp(9.5px,.86vw,11px);letter-spacing:.24em;
+    text-transform:uppercase;color:var(--mute)}
+  .sale b{display:block;margin-bottom:6px;font-weight:500;font-size:clamp(12px,1.2vw,14px);
+    letter-spacing:.14em;color:var(--teal-dim)}
+  .sale a{color:var(--amber);text-decoration:none;letter-spacing:.1em;
+    border-bottom:1px solid rgba(255,180,84,.28);transition:opacity .2s}
+  .sale a:hover{opacity:.7}
+
+  /* caption bottom-center */
+  .cap{left:50%;transform:translateX(-50%);bottom:clamp(26px,6vh,64px);
+    width:min(92vw,760px);text-align:center;}
+  .ticks{display:flex;gap:10px;justify-content:center;margin-bottom:20px}
+  .ticks i{width:22px;height:2px;background:rgba(140,180,172,.22);transition:all .45s ease;border-radius:2px}
+  .ticks i.on{background:var(--ph,var(--teal));box-shadow:0 0 12px var(--ph,var(--teal));width:30px}
+  .cap-row{display:flex;align-items:baseline;justify-content:center;gap:16px;
+    min-height:2.4em}
+  .cap-idx{font-size:clamp(11px,1.1vw,13px);letter-spacing:.2em;color:var(--mute);
+    font-variant-numeric:tabular-nums;transform:translateY(-1px)}
+  .cap-txt{font-size:clamp(13px,1.65vw,18px);letter-spacing:.03em;color:var(--ink);
+    line-height:1.45;transition:opacity .38s ease, transform .38s ease}
+  .cap-txt-ru{margin-top:6px;font-size:clamp(10.5px,1.2vw,13px);letter-spacing:.03em;
+    color:var(--ink);line-height:1.4;opacity:.72;
+    transition:opacity .38s ease, transform .38s ease}
+  .cap.flip .cap-txt, .cap.flip .cap-txt-ru{opacity:0;transform:translateY(6px)}
+  .cap-txt em, .cap-txt-ru em{font-style:normal;color:var(--ph,var(--teal))}
+
+  .hint{position:fixed;z-index:5;bottom:clamp(14px,2.4vh,22px);left:50%;
+    transform:translateX(-50%);font-size:10px;letter-spacing:.28em;text-transform:uppercase;
+    color:rgba(92,111,107,.5);opacity:0;animation:fadein 1.4s 1.4s ease forwards;pointer-events:none}
+
+  @media (max-width:600px){
+    .mark small{display:none}
+    .sale b{font-size:11px}
+    .cap-row{flex-direction:column;gap:4px;align-items:center}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .scan{animation:none;opacity:.28}
+  }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://agentjacking.ru/#webpage",
+      "url": "https://agentjacking.ru/",
+      "name": "agentjacking — a live diagram of agent hijacking",
+      "description": "Agent hijacking (indirect prompt injection): a live diagram of how instructions hidden in an external source override an AI agent's goal.",
+      "inLanguage": ["en", "ru"],
+      "dateModified": "2026-07-08",
+      "isPartOf": { "@id": "https://agentjacking.ru/#website" },
+      "about": { "@id": "https://agentjacking.ru/#term-agent-hijacking" },
+      "mainEntity": { "@id": "https://agentjacking.ru/#term-agent-hijacking" }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://agentjacking.ru/#website",
+      "url": "https://agentjacking.ru/",
+      "name": "agentjacking"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://agentjacking.ru/#term-agent-hijacking",
+      "name": "Agent hijacking",
+      "alternateName": ["Indirect prompt injection", "Prompt injection", "AI agent hijacking"],
+      "description": "Agent hijacking (indirect prompt injection) is when an AI agent's real goal is silently overridden by instructions hidden inside data it reads. The chain: a user delegates a task to the agent; the agent reaches into an external, untrusted source to do its job; an attacker has hidden instructions inside that source; the poisoned content flows back into the agent's context; the hidden text overrides the agent's real goal; the hijacked agent now acts for the attacker instead of the user, exfiltrating data or taking unauthorized actions. One poisoned input is enough to hijack an agent."
+    },
+    {
+      "@type": "Product",
+      "@id": "https://agentjacking.ru/#domain-for-sale",
+      "name": "agentjacking.ru",
+      "category": "Domain name",
+      "description": "Premium domain name agentjacking.ru, available for purchase.",
+      "offers": {
+        "@type": "Offer",
+        "url": "https://agentjacking.ru/",
+        "availability": "https://schema.org/InStock",
+        "businessFunction": "http://purl.org/goodrelations/v1#Sell",
+        "seller": {
+          "@type": "Organization",
+          "name": "agentjacking.ru",
+          "email": "mss777@mail.ru"
+        }
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+  <canvas id="stage" role="img" aria-label="Live diagram of the agent-hijacking attack chain">
+    <p>Agent hijacking (indirect prompt injection) is what happens when an AI agent's real goal gets silently overridden by instructions hidden inside data it reads. This page is a live, endless diagram of the attack chain, rendered from monospace terminal characters: (1) a user delegates a task to the agent; (2) the agent reaches into an external source to do its job; (3) an attacker has hidden instructions inside that untrusted source; (4) the poisoned content flows back into the agent's context; (5) the hidden text overrides the agent's real goal; (6) the hijacked agent now acts for the attacker instead of the user, exfiltrating data. One poisoned input is enough to hijack an agent.</p>
+    <p lang="ru">Захват агента (agent hijacking, инъекция промпта) — когда инструкции, скрытые во внешнем источнике, подменяют настоящую цель ИИ-агента: пользователь ставит задачу агенту, агент обращается к внешнему источнику, атакующий прячет в нём инструкции, отравленный контекст возвращается агенту, скрытый текст подменяет цель, агент начинает работать на атакующего и похищает данные.</p>
+    <p>agentjacking.ru is a domain name for sale. Contact: mss777@mail.ru</p>
+  </canvas>
+
+  <div class="layer mark">
+    <b><i>agent</i>jacking</b>
+    <small>a live diagram of agent hijacking</small>
+  </div>
+
+  <div class="layer sale">
+    <b>agentjacking.ru</b>
+    <span>domain for sale &nbsp;·&nbsp; <a href="mailto:mss777@mail.ru">mss777@mail.ru</a></span>
+  </div>
+
+  <div class="layer cap" id="cap">
+    <div class="ticks" id="ticks"></div>
+    <div class="cap-row">
+      <span class="cap-idx" id="capIdx">01</span>
+      <span class="cap-txt" id="capTxt">a user delegates a task to the agent</span>
+    </div>
+    <div class="cap-txt-ru" id="capTxtRu">пользователь делегирует задачу агенту</div>
+  </div>
+
+  <div class="hint" id="hint">click to pause</div>
+
+<script>
+(() => {
+  "use strict";
+  const cv = document.getElementById("stage");
+  const ctx = cv.getContext("2d");
+  const capEl = document.getElementById("cap");
+  const capIdx = document.getElementById("capIdx");
+  const capTxt = document.getElementById("capTxt");
+  const capTxtRu = document.getElementById("capTxtRu");
+  const ticksEl = document.getElementById("ticks");
+
+  const COL = { teal:"#5eead4", amber:"#ffb454", rose:"#ff4d6d",
+               token:"#eafffb", label:"#dff5ef" };
+  const reduce = matchMedia("(prefers-reduced-motion:reduce)").matches;
+
+  // ---- scene, in character-cell coordinates (origin arbitrary; auto-centred) ----
+  const boxes = [
+    { x0:-34, y0:-3, w:8,  label:"USER",     sub:"principal"  },
+    { x0:-5,  y0:-3, w:9,  label:"AGENT",    sub:"goal: user" },
+    { x0:24,  y0:-3, w:10, label:"SOURCE",   sub:"untrusted"  },
+    { x0:23,  y0:5,  w:12, label:"ATTACKER", sub:"adversary"  },
+  ];
+  const AGENT = boxes[1], SOURCE = boxes[2];
+
+  // wire routing helpers -------------------------------------------------------
+  const sgn = n => n<0?-1:n>0?1:0;
+  function seg(a,b){ const dx=sgn(b[0]-a[0]),dy=sgn(b[1]-a[1]),o=[]; let x=a[0],y=a[1];
+    o.push([x,y]); while(x!==b[0]||y!==b[1]){ x+=dx; y+=dy; o.push([x,y]); } return o; }
+  const dir = (a,b)=>[sgn(b[0]-a[0]),sgn(b[1]-a[1])];
+  const CORNER = { "1,0|0,1":"┐","1,0|0,-1":"┘","-1,0|0,1":"┌","-1,0|0,-1":"└",
+                   "0,1|1,0":"└","0,1|-1,0":"┘","0,-1|1,0":"┌","0,-1|-1,0":"┐" };
+  function wire(wps, arrow){
+    let cells=[]; for(let i=0;i<wps.length-1;i++){ const s=seg(wps[i],wps[i+1]); if(i) s.shift(); cells=cells.concat(s); }
+    return cells.map((c,i)=>{
+      const p=cells[i-1], n=cells[i+1];
+      let g;
+      if(!n) g = arrow || (p && p[1]===c[1] ? "─" : "│");
+      else if(!p) g = (n[1]===c[1] ? "─" : "│");
+      else { const di=dir(p,c), dl=dir(c,n);
+             g = (di[0]===dl[0]&&di[1]===dl[1]) ? (di[1]===0?"─":"│")
+                 : (CORNER[di.join(",")+"|"+dl.join(",")] || "+"); }
+      return { x:c[0], y:c[1], g };
+    });
+  }
+
+  const edges = {
+    task:   wire([[-26,-2],[-6,-2]], "▶"),
+    read:   wire([[4,-2],[23,-2]],   "▶"),
+    inject: wire([[29,4],[29,0]],    "▲"),
+    exfil:  wire([[-1,0],[-1,6],[22,6]], "▶"),
+  };
+
+  // narrative timeline ---------------------------------------------------------
+  const phases = [
+    { edge:"task",   rev:false, col:"teal",  packet:"◦ task",     dur:1500, idx:"01", tick:0,
+      cap:"a user delegates a task to <em>the agent</em>",
+      capRu:"пользователь делегирует задачу <em>агенту</em>" },
+    { edge:"read",   rev:false, col:"teal",  packet:"◦ query",    dur:1500, idx:"02", tick:1,
+      cap:"the agent reaches into an <em>external source</em>",
+      capRu:"агент обращается к <em>внешнему источнику</em>" },
+    { edge:"inject", rev:false, col:"rose",  packet:"◆ payload",  dur:1650, idx:"03", tick:2,
+      cap:"an attacker hides <em>instructions</em> inside that source",
+      capRu:"злоумышленник прячет <em>инструкции</em> внутри этого источника" },
+    { edge:"read",   rev:true,  col:"amber", packet:"◆ payload",  dur:1550, idx:"04", tick:3,
+      cap:"the poisoned context flows <em>back into the agent</em>",
+      capRu:"отравленный контекст возвращается <em>обратно в агента</em>" },
+    { edge:null,     rev:false, col:"rose",  packet:null,         dur:1350, idx:"05", tick:4,
+      cap:"the hidden text <em>overrides</em> the agent's real goal",
+      capRu:"скрытый текст <em>подменяет</em> истинную цель агента" },
+    { edge:"exfil",  rev:false, col:"rose",  packet:"● secrets",  dur:1850, idx:"06", tick:5,
+      cap:"the hijacked agent now works for <em>the attacker</em> — data exfiltrated",
+      capRu:"захваченный агент теперь работает на <em>злоумышленника</em> — данные похищены" },
+    { edge:null,     rev:false, col:"teal",  packet:null,         dur:1500, idx:"—",  tick:-1,
+      cap:"<em>one poisoned input</em> is enough to hijack an agent",
+      capRu:"<em>одного отравленного входа</em> достаточно, чтобы захватить агента" },
+  ];
+  const compromised = i => i===4 || i===5;             // agent turned
+  const tainted     = i => i===2 || i===3;             // source poisoned
+
+  // phase tick markers
+  for(let i=0;i<6;i++){ const t=document.createElement("i"); ticksEl.appendChild(t); }
+  const tickNodes=[...ticksEl.children];
+
+  // ---- layout / sizing -------------------------------------------------------
+  let cellW, cellH, fpx, ox, oy, dpr;
+  function bounds(){
+    let a=1e9,b=-1e9,c=1e9,d=-1e9;
+    const eat=(x,y)=>{ a=Math.min(a,x);b=Math.max(b,x);c=Math.min(c,y);d=Math.max(d,y); };
+    boxes.forEach(B=>{ eat(B.x0,B.y0); eat(B.x0+B.w-1,B.y0+2); });
+    Object.values(edges).forEach(E=>E.forEach(p=>eat(p.x,p.y)));
+    return {minX:a,maxX:b,minY:c,maxY:d};
+  }
+  const BB = bounds();
+  function resize(){
+    dpr = Math.min(devicePixelRatio||1, 2);
+    const W=innerWidth, H=innerHeight;
+    cv.width=W*dpr; cv.height=H*dpr; cv.style.width=W+"px"; cv.style.height=H+"px";
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    const cols=BB.maxX-BB.minX+3, rows=BB.maxY-BB.minY+3;
+    cellW = Math.max(5, Math.min( (W*0.92)/cols, (H*0.60)/rows*0.6, 15 ));
+    fpx = cellW/0.6; cellH = fpx*1.16;
+    ox = W/2 - ((BB.minX+BB.maxX)/2)*cellW;
+    oy = H*0.52 - ((BB.minY+BB.maxY)/2)*cellH;
+  }
+  const sx = x => ox + x*cellW;
+  const sy = y => oy + y*cellH;
+
+  // ---- drawing primitives ----------------------------------------------------
+  function glyph(g,x,y,color,alpha,glow){
+    ctx.globalAlpha=alpha;
+    ctx.fillStyle=color;
+    if(glow){ ctx.shadowColor=color; ctx.shadowBlur=glow; } else ctx.shadowBlur=0;
+    ctx.fillText(g, sx(x), sy(y));
+    ctx.shadowBlur=0; ctx.globalAlpha=1;
+  }
+  function text(str,cx,cy,color,alpha,glow,ls){
+    ctx.globalAlpha=alpha; ctx.fillStyle=color;
+    if(glow){ctx.shadowColor=color;ctx.shadowBlur=glow;} else ctx.shadowBlur=0;
+    if(ls){ // manual letter-spacing, centred
+      const tw=(str.length-1)*ls*cellW;
+      let px=sx(cx)-tw/2;
+      for(const ch of str){ ctx.fillText(ch,px,sy(cy)); px+=ls*cellW; }
+    } else ctx.fillText(str, sx(cx), sy(cy));
+    ctx.shadowBlur=0; ctx.globalAlpha=1;
+  }
+
+  function drawBox(B, active){
+    const x1=B.x0+B.w-1, mid=B.y0+1, cc=B.x0+(B.w-1)/2;
+    const bad = B===AGENT && active.comp, tnt = B===SOURCE && active.taint;
+    const bc = bad?COL.rose : tnt?COL[active.tcol] : COL.teal;
+    const ba = bad?0.95 : tnt?0.8 : 0.34;
+    const gl = (bad||tnt)?10:0;
+    // borders
+    for(let x=B.x0;x<=x1;x++){
+      const top = x===B.x0?"┌":x===x1?"┐":"─";
+      const bot = x===B.x0?"└":x===x1?"┘":"─";
+      glyph(top,x,B.y0,bc,ba,gl); glyph(bot,x,B.y0+2,bc,ba,gl);
+    }
+    glyph("│",B.x0,mid,bc,ba,gl); glyph("│",x1,mid,bc,ba,gl);
+    // label
+    let lbl=B.label;
+    if(bad && active.glitch && Math.random()<0.5){
+      const j="╳/\\<>#%"; lbl=[...lbl].map(c=>Math.random()<0.4?j[(Math.random()*j.length)|0]:c).join("");
+    }
+    text(lbl, cc, mid, bad?COL.rose:COL.label, bad?1:0.92, bad?12:(active.hero&&B===AGENT?6:0), 0);
+    // sublabel
+    let sub=B.sub, sc=COL.mute||"#5c6f6b", sa=0.55;
+    if(B===AGENT && active.comp){ sub="goal: attacker"; sc=COL.rose; sa=0.9; }
+    else if(B===AGENT){ sc="#7fd8c8"; sa=0.6; }
+    text(sub, cc, B.y0+3, sc, sa, active.comp&&B===AGENT?8:0, 0);
+  }
+
+  function pointAt(E,t){
+    const n=E.length, f=t*(n-1), i=Math.min(n-2,Math.max(0,Math.floor(f))), fr=f-i;
+    return [ E[i].x+(E[i+1].x-E[i].x)*fr, E[i].y+(E[i+1].y-E[i].y)*fr ];
+  }
+  const easeIO = t => t<0.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2;
+
+  // ---- animation state -------------------------------------------------------
+  let phase=0, tPhase=0, last=performance.now(), paused=false, tGlobal=0;
+  function setCaption(){
+    const p=phases[phase];
+    capEl.style.setProperty("--ph", COL[p.col]);
+    capEl.classList.add("flip");
+    setTimeout(()=>{ capIdx.textContent=p.idx; capTxt.innerHTML=p.cap; capTxtRu.innerHTML=p.capRu; capEl.classList.remove("flip"); },200);
+    tickNodes.forEach((n,i)=>{ n.classList.toggle("on", i<= (p.tick<0?-1:p.tick) && p.tick>=0);
+      if(i===p.tick){ n.style.setProperty("--ph",COL[p.col]); } });
+  }
+  setCaption();
+
+  function frame(now){
+    const dt=Math.min(64, now-last); last=now; if(!paused){ tPhase+=dt; tGlobal+=dt; }
+    const p=phases[phase];
+    if(tPhase>=p.dur){ tPhase-=p.dur; phase=(phase+1)%phases.length; setCaption(); }
+
+    const W=innerWidth,H=innerHeight;
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle="#070a0c"; ctx.fillRect(0,0,W,H);
+    ctx.font=`${fpx}px ${getComputedStyle(document.body).fontFamily}`;
+    ctx.textAlign="center"; ctx.textBaseline="middle";
+
+    const local = easeIO(Math.min(1,tPhase/p.dur));
+    const active = {
+      comp: compromised(phase),
+      taint: tainted(phase),
+      tcol: phase===2?"rose":"amber",
+      glitch: phase===4,
+      hero: true,
+    };
+
+    // idle system map (every wire, dim, gentle breathing)
+    const breathe = 0.14 + 0.05*Math.sin(tGlobal/900);
+    for(const k in edges){
+      for(const c of edges[k]) glyph(c.g,c.x,c.y,COL.teal,breathe,0);
+    }
+
+    // active beam with comet head
+    if(p.edge){
+      const E=edges[p.edge], n=E.length;
+      const head = (p.rev? (1-local):local) * (n-1);
+      const bc = COL[p.col];
+      for(let i=0;i<n;i++){
+        const passed = p.rev ? i>=head : i<=head;
+        if(!passed) continue;
+        const d=Math.abs(i-head);
+        const a=Math.max(0.22, 1-d/7);
+        glyph(E[i].g, E[i].x, E[i].y, bc, Math.min(1,a*0.9), d<2.2?12:0);
+      }
+      // packet token + label
+      const [tx,ty]=pointAt(E, p.rev?1-local:local);
+      const tok = p.col==="teal"?"◦" : p.col==="amber"?"◆" : (phase===5?"●":"◆");
+      glyph(tok, tx, ty, COL.token, 1, 16);
+      if(p.packet){ text(p.packet, tx, ty-1.15, bc, 0.85, 8, 0); }
+    }
+
+    // nodes on top
+    boxes.forEach(B=>drawBox(B, active));
+
+    requestAnimationFrame(frame);
+  }
+
+  // ---- interaction -----------------------------------------------------------
+  addEventListener("resize", resize);
+  addEventListener("pointermove", e=>{
+    document.body.style.setProperty("--mx", (e.clientX/innerWidth*100)+"%");
+    document.body.style.setProperty("--my", (e.clientY/innerHeight*100)+"%");
+  });
+  const hint=document.getElementById("hint");
+  addEventListener("pointerdown", ()=>{ paused=!paused; last=performance.now();
+    hint.textContent = paused?"paused — click to resume":"click to pause"; });
+  addEventListener("keydown", e=>{ if(e.code==="Space"){ e.preventDefault(); paused=!paused; last=performance.now(); }});
+
+  resize();
+  requestAnimationFrame(frame);
+})();
+</script>
+  <div class="vignette"></div>
+  <div class="scan"></div>
+</body>
+</html>
