@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>mss777@mail.ru — Подготовка к собеседованию</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg: #0b0f1a;
+  --bg2: #111827;
+  --bg3: #1a2235;
+  --border: rgba(96,165,250,0.12);
+  --border2: rgba(96,165,250,0.25);
+  --accent: #3b82f6;
+  --accent2: #60a5fa;
+  --accent3: #93c5fd;
+  --green: #34d399;
+  --amber: #fbbf24;
+  --red: #f87171;
+  --coral: #fb923c;
+  --text: #e2e8f0;
+  --text2: #94a3b8;
+  --text3: #64748b;
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Syne', system-ui, sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.65;
+  min-height: 100vh;
+}
+
+/* LAYOUT */
+.shell {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+}
+
+/* SIDEBAR */
+nav {
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 2rem;
+}
+nav::-webkit-scrollbar{width:4px}
+nav::-webkit-scrollbar-track{background:transparent}
+nav::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+.nav-header {
+  padding: 1.5rem 1.5rem 1rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0.75rem;
+}
+.nav-logo {
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--accent2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.nav-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.nav-section-label {
+  font-size: 10px;
+  font-family: var(--mono);
+  color: var(--text3);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.5rem 0.25rem;
+}
+
+nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 1.5rem;
+  text-decoration: none;
+  color: var(--text2);
+  font-size: 13px;
+  font-weight: 500;
+  transition: color .15s, background .15s;
+  border-left: 2px solid transparent;
+}
+nav a:hover {color: var(--text); background: rgba(255,255,255,0.03)}
+nav a.active {color: var(--accent2); border-left-color: var(--accent); background: rgba(59,130,246,0.06)}
+nav a .nav-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--text3);
+  flex-shrink: 0;
+  transition: background .15s;
+}
+nav a.active .nav-dot, nav a:hover .nav-dot {background: var(--accent2)}
+
+.nav-priority {
+  font-size: 9px;
+  font-family: var(--mono);
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.p-high {background: rgba(248,113,113,0.15); color: var(--red)}
+.p-mid {background: rgba(251,191,36,0.15); color: var(--amber)}
+.p-low {background: rgba(52,211,153,0.15); color: var(--green)}
+
+/* MAIN */
+main {
+  padding: 2.5rem 3rem;
+  max-width: 860px;
+}
+
+/* HERO */
+.hero {
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+.hero-tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+.hero h1 {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+}
+.hero h1 span {color: var(--accent2)}
+.hero-desc {
+  color: var(--text2);
+  font-size: 14px;
+  max-width: 560px;
+  line-height: 1.7;
+}
+
+.context-bar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 1.25rem;
+}
+.ctx-pill {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 4px 10px;
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  color: var(--text2);
+}
+.ctx-pill strong {color: var(--accent2)}
+
+/* SECTIONS */
+.topic {
+  margin-bottom: 3rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.topic:last-child {border-bottom: none}
+
+.topic-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.topic-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+  padding-top: 5px;
+  flex-shrink: 0;
+  width: 24px;
+}
+.topic-meta {}
+.topic-meta h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.topic-badges {display: flex; gap: 6px; flex-wrap: wrap; align-items: center}
+.badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 3px;
+}
+.b-proto {background: rgba(59,130,246,0.15); color: var(--accent3)}
+.b-high {background: rgba(248,113,113,0.12); color: var(--red)}
+.b-mid {background: rgba(251,191,36,0.12); color: var(--amber)}
+.b-ok {background: rgba(52,211,153,0.12); color: var(--green)}
+.b-tool {background: rgba(251,146,60,0.12); color: var(--coral)}
+
+/* DIAGRAM BOX */
+.diagram-wrap {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin: 1rem 0 1.5rem;
+  overflow-x: auto;
+}
+.diagram-wrap svg {max-width: 100%; display: block; margin: auto}
+
+/* ONE-LINER */
+.oneliner {
+  background: rgba(59,130,246,0.06);
+  border-left: 3px solid var(--accent);
+  padding: 10px 14px;
+  border-radius: 0 6px 6px 0;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--accent3);
+  margin-bottom: 1.25rem;
+  line-height: 1.55;
+}
+
+/* SATELLITE HINT */
+.sat-hint {
+  background: rgba(52,211,153,0.05);
+  border: 1px solid rgba(52,211,153,0.2);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #6ee7b7;
+  margin-bottom: 1.25rem;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.sat-hint::before {content: '🛰'; flex-shrink: 0}
+
+/* Q&A */
+.qa-list {display: flex; flex-direction: column; gap: 8px}
+.qa-item {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color .15s;
+}
+.qa-item:hover {border-color: var(--border2)}
+.qa-q {
+  padding: 11px 14px;
+  cursor: pointer;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg2);
+  user-select: none;
+  transition: background .15s;
+}
+.qa-q:hover {background: var(--bg3)}
+.qa-q .arrow {
+  font-size: 10px;
+  color: var(--text3);
+  flex-shrink: 0;
+  transition: transform .2s;
+  font-family: var(--mono);
+}
+.qa-q.open .arrow {transform: rotate(180deg)}
+.qa-a {
+  display: none;
+  padding: 12px 14px;
+  font-size: 13.5px;
+  color: var(--text2);
+  line-height: 1.7;
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+}
+.qa-a.open {display: block}
+.qa-a strong {color: var(--text); font-weight: 600}
+.qa-a code {
+  font-family: var(--mono);
+  font-size: 12px;
+  background: var(--bg3);
+  color: var(--accent3);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+/* SCORE TIPS */
+.score-tip {
+  background: rgba(251,191,36,0.06);
+  border: 1px solid rgba(251,191,36,0.2);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #fde68a;
+  margin-top: 1rem;
+  display: flex;
+  gap: 8px;
+}
+.score-tip::before {content: '💡'; flex-shrink: 0}
+
+/* COMPARISON TABLE */
+.cmp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin: 1rem 0;
+}
+.cmp-table th {
+  text-align: left;
+  padding: 8px 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+}
+.cmp-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text2);
+  vertical-align: top;
+}
+.cmp-table td:first-child {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent3);
+  white-space: nowrap;
+}
+.cmp-table tr:last-child td {border-bottom: none}
+.cmp-table tr:hover td {background: rgba(255,255,255,0.015)}
+
+/* PROGRESS */
+.progress-panel {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2.5rem;
+}
+.progress-panel h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 1rem;
+  font-family: var(--mono);
+  letter-spacing: 0.06em;
+}
+.prog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 6px;
+}
+.prog-item {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 7px 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+  cursor: pointer;
+  transition: all .15s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.prog-item:hover {border-color: var(--border2); color: var(--text2)}
+.prog-item.done {
+  border-color: rgba(52,211,153,0.3);
+  color: var(--green);
+  background: rgba(52,211,153,0.05);
+}
+.prog-item .check {font-size: 10px}
+
+/* PRINT */
+@media print {
+  .shell {grid-template-columns: 1fr}
+  nav {display: none}
+  main {padding: 1rem; max-width: 100%}
+  .qa-a {display: block !important}
+}
+
+@media (max-width: 768px) {
+  .shell {grid-template-columns: 1fr}
+  nav {position: relative; height: auto; border-right: none; border-bottom: 1px solid var(--border)}
+  main {padding: 1.5rem}
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+<nav id="sidebar">
+  <div class="nav-header">
+    <div class="nav-logo">mss777@mail.ru · 2026</div>
+    <div class="nav-title">Сетевой инженер<br>Шпаргалка</div>
+  </div>
+
+  <div class="nav-section-label">Протоколы · обязательно</div>
+  <a href="#tcpip" onclick="setActive(this)"><span class="nav-dot"></span>TCP/IP стек<span class="nav-priority p-high">HIGH</span></a>
+  <a href="#vlan" onclick="setActive(this)"><span class="nav-dot"></span>VLAN<span class="nav-priority p-high">HIGH</span></a>
+  <a href="#nat" onclick="setActive(this)"><span class="nav-dot"></span>NAT<span class="nav-priority p-high">HIGH</span></a>
+  <a href="#ospf" onclick="setActive(this)"><span class="nav-dot"></span>OSPF<span class="nav-priority p-high">HIGH</span></a>
+  <a href="#bgp" onclick="setActive(this)"><span class="nav-dot"></span>BGP<span class="nav-priority p-high">HIGH</span></a>
+
+  <div class="nav-section-label">Виртуализация сетей</div>
+  <a href="#vrf" onclick="setActive(this)"><span class="nav-dot"></span>VRF<span class="nav-priority p-mid">MED</span></a>
+  <a href="#mpls" onclick="setActive(this)"><span class="nav-dot"></span>MPLS<span class="nav-priority p-mid">MED</span></a>
+
+  <div class="nav-section-label">Инструменты</div>
+  <a href="#monitoring" onclick="setActive(this)"><span class="nav-dot"></span>Мониторинг (Zabbix)<span class="nav-priority p-mid">MED</span></a>
+  <a href="#voip" onclick="setActive(this)"><span class="nav-dot"></span>IP-телефония<span class="nav-priority p-mid">MED</span></a>
+  <a href="#automation" onclick="setActive(this)"><span class="nav-dot"></span>Ansible / Python<span class="nav-priority p-low">OK</span></a>
+  <a href="#cisco" onclick="setActive(this)"><span class="nav-dot"></span>Cisco / Mikrotik<span class="nav-priority p-low">OK</span></a>
+
+  <div class="nav-section-label">Контекст</div>
+  <a href="#interview" onclick="setActive(this)"><span class="nav-dot"></span>Тактика интервью</a>
+</nav>
+
+<main>
+
+  <div class="hero">
+    <div class="hero-tag">// подготовка к собеседованию</div>
+    <h1>Инженер сетей связи<br><span>mss777@mail.ru</span></h1>
+    <p class="hero-desc">Компания: спутниковый оператор VSAT, Iridium, IoT/M2M, наземные комплексы управления КА. Вакансия требует уверенного знания сетевого стека, мониторинга и документирования.</p>
+    <div class="context-bar">
+      <div class="ctx-pill">Cisco <strong>CCNA/CCNP</strong></div>
+      <div class="ctx-pill">Mikrotik <strong>MTCRE</strong></div>
+      <div class="ctx-pill"><strong>Zabbix</strong> / Grafana</div>
+      <div class="ctx-pill"><strong>Ansible</strong> + Python</div>
+      <div class="ctx-pill">Visio / <strong>Draw.io</strong></div>
+      <div class="ctx-pill">Английский <strong>B2</strong></div>
+    </div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-panel">
+    <h3>// прогресс изучения</h3>
+    <div class="prog-grid" id="pg"></div>
+  </div>
+
+  <!-- ══════════ TCP/IP ══════════ -->
+  <div class="topic" id="tcpip">
+    <div class="topic-header">
+      <div class="topic-num">01</div>
+      <div class="topic-meta">
+        <h2>Стек протоколов TCP/IP</h2>
+        <div class="topic-badges">
+          <span class="badge b-proto">L3/L4</span>
+          <span class="badge b-high">спросят первым</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="oneliner">TCP/IP — набор правил для передачи данных по сети. IP = адресация и маршрутизация, TCP = надёжная доставка, UDP = быстрая без гарантий.</div>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 640 180" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="a1" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L7,3 z" fill="#3b82f6" opacity="0.5"/>
+          </marker>
+        </defs>
+
+        <!-- Layers -->
+        <rect x="8" y="8" width="140" height="36" rx="6" fill="#1a2235" stroke="#3b82f6" stroke-width="0.5" stroke-opacity="0.4"/>
+        <text x="78" y="23" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10" fill="#93c5fd">Прикладной</text>
+        <text x="78" y="36" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#60a5fa" opacity="0.7">HTTP FTP SSH DNS</text>
+
+        <rect x="8" y="52" width="140" height="36" rx="6" fill="#1a2235" stroke="#34d399" stroke-width="0.5" stroke-opacity="0.5"/>
+        <text x="78" y="67" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10" fill="#6ee7b7">Транспортный</text>
+        <text x="78" y="80" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#34d399" opacity="0.7">TCP / UDP · порты</text>
+
+        <rect x="8" y="96" width="140" height="36" rx="6" fill="#1a2235" stroke="#fbbf24" stroke-width="0.5" stroke-opacity="0.4"/>
+        <text x="78" y="111" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10" fill="#fde68a">Сетевой (IP)</text>
+        <text x="78" y="124" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#fbbf24" opacity="0.7">IP · ICMP · маршруты</text>
+
+        <rect x="8" y="140" width="140" height="36" rx="6" fill="#1a2235" stroke="#f87171" stroke-width="0.5" stroke-opacity="0.4"/>
+        <text x="78" y="155" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10" fill="#fca5a5">Канальный / Физич.</text>
+        <text x="78" y="168" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#f87171" opacity="0.7">MAC · Ethernet · Wi-Fi</text>
+
+        <!-- Arrow down sender -->
+        <line x1="155" y1="26" x2="195" y2="26" stroke="#3b82f6" stroke-width="0.8" opacity="0.4"/>
+        <line x1="155" y1="70" x2="195" y2="70" stroke="#34d399" stroke-width="0.8" opacity="0.4"/>
+        <line x1="155" y1="114" x2="195" y2="114" stroke="#fbbf24" stroke-width="0.8" opacity="0.4"/>
+        <line x1="155" y1="158" x2="195" y2="158" stroke="#f87171" stroke-width="0.8" opacity="0.4"/>
+
+        <!-- Encapsulation label -->
+        <text x="180" y="14" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#64748b">инкапсуляция ↓</text>
+
+        <!-- Packets visual -->
+        <rect x="200" y="8" width="170" height="164" rx="8" fill="#0b0f1a" stroke="#1a2235" stroke-width="1"/>
+        <text x="285" y="25" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#64748b">ПАКЕТ В СЕТИ</text>
+
+        <rect x="208" y="30" width="154" height="22" rx="3" fill="#1a2235" stroke="#f87171" stroke-width="0.5" stroke-opacity="0.5"/>
+        <text x="285" y="45" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#fca5a5">Ethernet: src_mac dst_mac</text>
+
+        <rect x="216" y="56" width="138" height="22" rx="3" fill="#1a2235" stroke="#fbbf24" stroke-width="0.5" stroke-opacity="0.5"/>
+        <text x="285" y="71" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#fde68a">IP: 192.168.1.2 → 8.8.8.8</text>
+
+        <rect x="224" y="82" width="122" height="22" rx="3" fill="#1a2235" stroke="#34d399" stroke-width="0.5" stroke-opacity="0.5"/>
+        <text x="285" y="97" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#6ee7b7">TCP: src:52300 dst:443</text>
+
+        <rect x="232" y="108" width="106" height="40" rx="3" fill="#1a2235" stroke="#3b82f6" stroke-width="0.5" stroke-opacity="0.5"/>
+        <text x="285" y="123" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#93c5fd">HTTP GET /index.html</text>
+        <text x="285" y="137" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#60a5fa" opacity="0.5">Host: stekcom.ru</text>
+
+        <!-- TCP handshake -->
+        <rect x="390" y="8" width="240" height="164" rx="8" fill="#0b0f1a" stroke="#1a2235" stroke-width="1"/>
+        <text x="510" y="25" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#64748b">TCP рукопожатие</text>
+
+        <text x="420" y="45" font-family="'JetBrains Mono',monospace" font-size="10" fill="#6ee7b7">Клиент</text>
+        <text x="580" y="45" text-anchor="end" font-family="'JetBrains Mono',monospace" font-size="10" fill="#60a5fa">Сервер</text>
+        <line x1="420" y1="50" x2="420" y2="165" stroke="#34d399" stroke-width="0.5" opacity="0.4"/>
+        <line x1="600" y1="50" x2="600" y2="165" stroke="#3b82f6" stroke-width="0.5" opacity="0.4"/>
+
+        <line x1="420" y1="70" x2="600" y2="85" stroke="#34d399" stroke-width="0.8" stroke-opacity="0.7" marker-end="url(#a1)"/>
+        <text x="510" y="71" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#34d399">SYN</text>
+
+        <line x1="600" y1="100" x2="420" y2="115" stroke="#60a5fa" stroke-width="0.8" stroke-opacity="0.7" marker-end="url(#a1)"/>
+        <text x="510" y="101" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#60a5fa">SYN-ACK</text>
+
+        <line x1="420" y1="130" x2="600" y2="145" stroke="#34d399" stroke-width="0.8" stroke-opacity="0.7" marker-end="url(#a1)"/>
+        <text x="510" y="131" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#34d399">ACK → соединение</text>
+      </svg>
+    </div>
+
+    <div class="sat-hint">В спутниковых сетях VSAT транспортный уровень — проблемное место: задержка (latency) 600–700ms на геостационаре ломает TCP-механизм подтверждений. Поэтому используют TCP Acceleration / PEP (Performance Enhancing Proxy). Это хорошо упомянуть — покажет понимание контекста работодателя.</div>
+
+    <div class="qa-list">
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Объясни разницу TCP и UDP простыми словами <span class="arrow">▼</span></div>
+        <div class="qa-a"><strong>TCP</strong> — как заказное письмо с уведомлением: устанавливает соединение, подтверждает каждый пакет, повторяет потерянные, гарантирует порядок. HTTP, SSH, FTP.<br><br><strong>UDP</strong> — как листовки в почтовый ящик: отправил и не знаешь дошло ли. Зато быстро. VoIP, DNS, видеостриминг, игры. В VoIP потеря одного пакета — лучше пропустить, чем ждать повтора и получить задержку.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Что такое MTU и фрагментация? <span class="arrow">▼</span></div>
+        <div class="qa-a"><strong>MTU (Maximum Transmission Unit)</strong> — максимальный размер пакета в байтах, который принимает канал. Ethernet = <code>1500 байт</code>. Если пакет больше — его либо фрагментируют (разбивают), либо дропают с ICMP "fragmentation needed".<br><br>В VSAT и туннелях (GRE, IPSec) MTU уменьшается из-за заголовков. Если не настроить — сессии зависают. Решение: <code>ip tcp adjust-mss 1452</code> на интерфейсе.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Что происходит при обращении к google.com? <span class="arrow">▼</span></div>
+        <div class="qa-a">1. DNS-запрос: браузер спрашивает resolver'а IP для google.com → ответ <code>142.250.x.x</code><br>2. TCP SYN → SYN-ACK → ACK (трёхстороннее рукопожатие)<br>3. TLS Handshake (HTTPS): обмен сертификатами, согласование шифрования<br>4. HTTP GET-запрос поверх TLS<br>5. Сервер возвращает HTML<br>6. Браузер рендерит, загружает CSS/JS/картинки (новые TCP-сессии или HTTP/2 multiplexing)</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Какие протоколы работают на каждом уровне? <span class="arrow">▼</span></div>
+        <div class="qa-a">
+          <strong>Прикладной:</strong> HTTP/HTTPS, FTP, SSH, SNMP, DNS, SMTP, Telnet, SIP<br>
+          <strong>Транспортный:</strong> TCP, UDP, SCTP<br>
+          <strong>Сетевой:</strong> IP (IPv4/IPv6), ICMP, OSPF, BGP, IGMP<br>
+          <strong>Канальный:</strong> Ethernet, 802.1Q (VLAN), PPP, HDLC, ARP<br>
+          <strong>Физический:</strong> оптика, медь, радио (VSAT, Wi-Fi)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ VLAN ══════════ -->
+  <div class="topic" id="vlan">
+    <div class="topic-header">
+      <div class="topic-num">02</div>
+      <div class="topic-meta">
+        <h2>VLAN — Virtual LAN</h2>
+        <div class="topic-badges">
+          <span class="badge b-proto">L2 · 802.1Q</span>
+          <span class="badge b-high">гарантированно спросят</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="oneliner">VLAN делит один физический коммутатор на несколько изолированных виртуальных сетей. Трафик разных VLAN не смешивается без явной маршрутизации.</div>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 620 160" xmlns="http://www.w3.org/2000/svg">
+        <!-- Switch -->
+        <rect x="240" y="60" width="140" height="46" rx="6" fill="#1a2235" stroke="#64748b" stroke-width="0.5"/>
+        <text x="310" y="80" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#94a3b8">КОММУТАТОР</text>
+        <text x="310" y="96" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#64748b">1 устройство</text>
+
+        <!-- VLAN blocks inside switch -->
+        <rect x="248" y="108" width="44" height="16" rx="3" fill="rgba(59,130,246,0.2)" stroke="#3b82f6" stroke-width="0.5" stroke-opacity="0.5"/>
+        <text x="270" y="120" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="#93c5fd">VLAN10</text>
+        <rect x="296" y="108" width="44" height="16" rx="3" fill="rgba(52,211,153,0.2)" stroke="#34d399" stroke-width="0.5" stroke-opacity="0.5"/>
+        <text x="318" y="120" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="#6ee7b7">VLAN20</text>
+        <rect x="344" y="108" width="44" height="16" rx="3" fill="rgba(251,191,36,0.2)" stroke="#fbbf24" stroke-width="0.5" stroke-opacity="0.5"/>
+        <text x="366" y="120" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="#fde68a">VLAN30</text>
+
+        <!-- Left devices -->
+        <rect x="10" y="10" width="110" height="35" rx="5" fill="#1a2235" stroke="#3b82f6" stroke-width="0.5" stroke-opacity="0.6"/>
+        <text x="65" y="25" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#93c5fd">Бухгалтерия</text>
+        <text x="65" y="38" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="#3b82f6" opacity="0.6">VLAN 10 · 10.10.10.x</text>
+
+        <rect x="10" y="65" width="110" height="35" rx="5" fill="#1a2235" stroke="#34d399" stroke-width="0.5" stroke-opacity="0.6"/>
+        <text x="65" y="79" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#6ee7b7">ИТ-отдел</text>
+        <text x="65" y="92" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="#34d399" opacity="0.6">VLAN 20 · 10.20.20.x</text>
+
+        <rect x="10" y="120" width="110" height="35" rx="5" fill="#1a2235" stroke="#fbbf24" stroke-width="0.5" stroke-opacity="0.6"/>
+        <text x="65" y="134" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#fde68a">Гости / Wi-Fi</text>
+        <text x="65" y="147" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="#fbbf24" opacity="0.6">VLAN 30 · 10.30.30.x</text>
+
+        <!-- Right: router/L3 -->
+        <rect x="500" y="45" width="110" height="70" rx="5" fill="#1a2235" stroke="#94a3b8" stroke-width="0.5" stroke-opacity="0.4"/>
+        <text x="555" y="70" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">L3 Роутер</text>
+        <text x="555" y="84" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="#64748b">inter-VLAN</text>
+        <text x="555" y="97" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="#64748b">routing</text>
+        <text x="555" y="110" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="#f87171">(если разрешено)</text>
+
+        <!-- Lines access -->
+        <line x1="120" y1="27" x2="240" y2="75" stroke="#3b82f6" stroke-width="0.8" stroke-opacity="0.5" stroke-dasharray="3,2"/>
+        <line x1="120" y1="82" x2="240" y2="83" stroke="#34d399" stroke-width="0.8" stroke-opacity="0.5" stroke-dasharray="3,2"/>
+        <line x1="120" y1="137" x2="240" y2="91" stroke="#fbbf24" stroke-width="0.8" stroke-opacity="0.5" stroke-dasharray="3,2"/>
+
+        <!-- Trunk line -->
+        <line x1="380" y1="83" x2="500" y2="83" stroke="#94a3b8" stroke-width="2" stroke-opacity="0.5"/>
+        <text x="440" y="76" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#64748b">Trunk</text>
+        <text x="440" y="88" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="#64748b">802.1Q тег</text>
+
+        <!-- Barrier between vlan10 and vlan30 -->
+        <text x="185" y="90" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="18" fill="#f87171" opacity="0.3">⊘</text>
+      </svg>
+    </div>
+
+    <div class="sat-hint">У mss777@mail.ru VLAN применяется для разделения управляющего трафика спутниковых терминалов и пользовательского трафика. Это стандартная практика — упомяни, что понимаешь необходимость изоляции management-трафика.</div>
+
+    <div class="qa-list">
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Что такое VLAN и зачем он нужен? <span class="arrow">▼</span></div>
+        <div class="qa-a">VLAN (Virtual LAN) — логическое разделение одной физической сети на изолированные сегменты. Устройства в разных VLAN не могут общаться напрямую — только через маршрутизатор. Нужен для: <strong>безопасности</strong> (бухгалтерия не видит гостей), <strong>производительности</strong> (меньше broadcast-домен), <strong>упрощения управления</strong> (не нужно тянуть отдельные кабели).</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Access vs Trunk — объясни разницу <span class="arrow">▼</span></div>
+        <div class="qa-a"><strong>Access-порт</strong> — подключает конечное устройство. Порт принадлежит одному VLAN, устройство не знает об этом (трафик без тегов).<br><br><strong>Trunk-порт</strong> — соединяет коммутаторы или коммутатор↔роутер. Через него идут пакеты нескольких VLAN одновременно, каждый с тегом <code>802.1Q</code> (4 байта в Ethernet-заголовке с номером VLAN 1–4094).<br><br>Пример Cisco: <code>switchport mode access / switchport access vlan 10</code> и <code>switchport mode trunk / switchport trunk allowed vlan 10,20,30</code></div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Как работает inter-VLAN routing? <span class="arrow">▼</span></div>
+        <div class="qa-a">Есть два способа:<br><br><strong>Router-on-a-stick</strong> — один физический интерфейс роутера делится на sub-интерфейсы (один на каждый VLAN). Каждый sub-интерфейс имеет IP — это шлюз VLAN. Дёшево, но узкое горлышко.<br><br><strong>L3-коммутатор (SVI)</strong> — интерфейс VLAN создаётся прямо на L3-свиче. Маршрутизация происходит в кремнии, гораздо быстрее. Стандарт в серьёзных сетях.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Что такое Native VLAN и чем опасен? <span class="arrow">▼</span></div>
+        <div class="qa-a">Native VLAN — единственный VLAN на trunk-порту, чей трафик передаётся <strong>без тега</strong>. По умолчанию VLAN 1 на Cisco.<br><br><strong>Атака: VLAN hopping</strong> — злоумышленник в Native VLAN может отправить двойной тег (802.1Q double tagging) и попасть в другой VLAN.<br><br>Защита: перевести Native VLAN с 1 на неиспользуемый номер, отключить все неиспользуемые порты и перевести их в изолированный VLAN.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ NAT ══════════ -->
+  <div class="topic" id="nat">
+    <div class="topic-header">
+      <div class="topic-num">03</div>
+      <div class="topic-meta">
+        <h2>NAT — Network Address Translation</h2>
+        <div class="topic-badges">
+          <span class="badge b-proto">L3</span>
+          <span class="badge b-high">базовый вопрос</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="oneliner">NAT подменяет приватный IP на публичный при выходе в интернет. Один публичный адрес → тысячи устройств внутри.</div>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 620 130" xmlns="http://www.w3.org/2000/svg">
+        <rect x="8" y="20" width="140" height="90" rx="6" fill="#0b0f1a" stroke="#34d399" stroke-width="0.5" stroke-opacity="0.5"/>
+        <text x="78" y="40" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#34d399">Внутренняя сеть</text>
+        <text x="78" y="58" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#6ee7b7">PC: 192.168.1.10</text>
+        <text x="78" y="72" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#6ee7b7">Phone: 192.168.1.11</text>
+        <text x="78" y="86" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#6ee7b7">TV: 192.168.1.12</text>
+        <text x="78" y="103" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="#1d9e75">ПРИВАТНЫЕ</text>
+
+        <rect x="235" y="30" width="150" height="70" rx="6" fill="#1a2235" stroke="#60a5fa" stroke-width="0.5" stroke-opacity="0.6"/>
+        <text x="310" y="52" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10" fill="#93c5fd">NAT РОУТЕР</text>
+        <text x="310" y="68" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="#60a5fa">inside: 192.168.1.1</text>
+        <text x="310" y="82" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="#60a5fa">outside: 85.14.200.5</text>
+        <text x="310" y="96" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="#3b82f6" opacity="0.7">таблица трансляций</text>
+
+        <rect x="472" y="30" width="140" height="70" rx="6" fill="#0b0f1a" stroke="#fbbf24" stroke-width="0.5" stroke-opacity="0.4"/>
+        <text x="542" y="52" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10" fill="#fde68a">ИНТЕРНЕТ</text>
+        <text x="542" y="68" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#fbbf24">server: 8.8.8.8</text>
+        <text x="542" y="82" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="#f59e0b" opacity="0.7">видит только 85.14.x.x</text>
+
+        <line x1="148" y1="65" x2="235" y2="65" stroke="#34d399" stroke-width="1" stroke-opacity="0.6"/>
+        <text x="192" y="57" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="#64748b">src:192.168.1.10</text>
+        <text x="192" y="80" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="#64748b">:52300→443</text>
+
+        <line x1="385" y1="65" x2="472" y2="65" stroke="#60a5fa" stroke-width="1" stroke-opacity="0.6"/>
+        <text x="428" y="57" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="#64748b">src:85.14.200.5</text>
+        <text x="428" y="80" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="#64748b">:41000→443</text>
+      </svg>
+    </div>
+
+    <div class="qa-list">
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Зачем нужен NAT? Какую проблему решает? <span class="arrow">▼</span></div>
+        <div class="qa-a">IPv4-адресов всего ~4,3 миллиарда — не хватает на каждое устройство в мире. NAT позволяет тысячам устройств выходить в интернет через один публичный IP. Приватные диапазоны (<code>10.0.0.0/8</code>, <code>172.16.0.0/12</code>, <code>192.168.0.0/16</code>) не маршрутируются в глобальном интернете — это «внутренние адреса», не уникальные.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Типы NAT — Static, Dynamic, PAT <span class="arrow">▼</span></div>
+        <div class="qa-a"><strong>Static NAT</strong> — 1 к 1: конкретный приватный IP жёстко привязан к публичному. Используется для серверов (почта, веб).<br><br><strong>Dynamic NAT</strong> — пул публичных адресов распределяется по запросу. Устарел.<br><br><strong>PAT / NAT Overload / Masquerade</strong> — N устройств → 1 публичный IP с разными портами. Роутер помнит: <code>192.168.1.10:52300 ↔ 85.14.200.5:41000</code>. Это стандарт в домашних и офисных сетях.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Как настроить NAT Overload на Cisco? <span class="arrow">▼</span></div>
+        <div class="qa-a">
+          <code>ip nat inside source list 1 interface GigabitEthernet0/1 overload</code><br>
+          <code>access-list 1 permit 192.168.1.0 0.0.0.255</code><br>
+          Затем на интерфейсах: <code>ip nat inside</code> (внутренний) и <code>ip nat outside</code> (внешний).<br><br>
+          На Mikrotik: <code>/ip firewall nat add action=masquerade chain=srcnat out-interface=ether1</code>
+        </div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Минусы NAT и проброс портов <span class="arrow">▼</span></div>
+        <div class="qa-a">Устройства за NAT недоступны снаружи по умолчанию. Чтобы открыть сервер — настраивается <strong>Port Forwarding (DNAT)</strong>: входящий трафик на порт 8080 публичного IP перенаправляется на <code>192.168.1.100:80</code>.<br><br>NAT ломает некоторые протоколы (SIP, FTP, IPSec). Для SIP нужен <strong>NAT traversal</strong> или STUN/TURN.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ OSPF ══════════ -->
+  <div class="topic" id="ospf">
+    <div class="topic-header">
+      <div class="topic-num">04</div>
+      <div class="topic-meta">
+        <h2>OSPF — протокол динамической маршрутизации</h2>
+        <div class="topic-badges">
+          <span class="badge b-proto">IGP · L3</span>
+          <span class="badge b-high">точно спросят</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="oneliner">OSPF — роутеры сами узнают топологию сети и строят оптимальные маршруты. Не нужно прописывать каждый путь вручную.</div>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 620 170" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="a2" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L6,3 z" fill="#60a5fa" opacity="0.5"/>
+          </marker>
+        </defs>
+
+        <!-- Routers -->
+        <rect x="250" y="10" width="120" height="36" rx="5" fill="#1a2235" stroke="#fbbf24" stroke-width="0.5" stroke-opacity="0.7"/>
+        <text x="310" y="25" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#fde68a">DR (Designated Router)</text>
+        <text x="310" y="39" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="#fbbf24" opacity="0.6">Area 0 · 10.0.0.1</text>
+
+        <rect x="10" y="80" width="110" height="36" rx="5" fill="#1a2235" stroke="#3b82f6" stroke-width="0.5" stroke-opacity="0.6"/>
+        <text x="65" y="95" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#93c5fd">R1 · 10.0.0.2</text>
+        <text x="65" y="108" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="#3b82f6" opacity="0.6">Area 0</text>
+
+        <rect x="140" y="120" width="110" height="36" rx="5" fill="#1a2235" stroke="#34d399" stroke-width="0.5" stroke-opacity="0.6"/>
+        <text x="195" y="135" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#6ee7b7">R2 · 10.0.0.3</text>
+        <text x="195" y="148" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="#34d399" opacity="0.6">Area 1 (stub)</text>
+
+        <rect x="380" y="120" width="110" height="36" rx="5" fill="#1a2235" stroke="#34d399" stroke-width="0.5" stroke-opacity="0.6"/>
+        <text x="435" y="135" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#6ee7b7">R3 · 10.0.0.4</text>
+        <text x="435" y="148" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="#34d399" opacity="0.6">Area 1 (stub)</text>
+
+        <rect x="500" y="80" width="110" height="36" rx="5" fill="#1a2235" stroke="#3b82f6" stroke-width="0.5" stroke-opacity="0.6"/>
+        <text x="555" y="95" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#93c5fd">R4 · 10.0.0.5</text>
+        <text x="555" y="108" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="#3b82f6" opacity="0.6">Area 0</text>
+
+        <!-- Lines -->
+        <line x1="120" y1="98" x2="250" y2="28" stroke="#60a5fa" stroke-width="0.8" stroke-opacity="0.5"/>
+        <line x1="195" y1="120" x2="285" y2="46" stroke="#60a5fa" stroke-width="0.8" stroke-opacity="0.5"/>
+        <line x1="435" y1="120" x2="350" y2="46" stroke="#60a5fa" stroke-width="0.8" stroke-opacity="0.5"/>
+        <line x1="500" y1="98" x2="370" y2="28" stroke="#60a5fa" stroke-width="0.8" stroke-opacity="0.5"/>
+        <line x1="120" y1="98" x2="140" y2="138" stroke="#60a5fa" stroke-width="0.8" stroke-opacity="0.5"/>
+        <line x1="490" y1="138" x2="500" y2="98" stroke="#60a5fa" stroke-width="0.8" stroke-opacity="0.5"/>
+
+        <!-- LSA labels -->
+        <text x="170" y="60" font-family="'JetBrains Mono',monospace" font-size="9" fill="#64748b">Hello</text>
+        <text x="170" y="72" font-family="'JetBrains Mono',monospace" font-size="9" fill="#64748b">LSA →</text>
+
+        <!-- OSPF Process note -->
+        <rect x="10" y="10" width="220" height="55" rx="6" fill="#0b0f1a" stroke="#1a2235" stroke-width="1"/>
+        <text x="20" y="28" font-family="'JetBrains Mono',monospace" font-size="9" fill="#64748b">1. Hello пакеты → нашли соседей</text>
+        <text x="20" y="42" font-family="'JetBrains Mono',monospace" font-size="9" fill="#64748b">2. LSA обмен → знаем топологию</text>
+        <text x="20" y="56" font-family="'JetBrains Mono',monospace" font-size="9" fill="#64748b">3. Dijkstra SPF → лучшие маршруты</text>
+      </svg>
+    </div>
+
+    <div class="sat-hint">В сетях mss777@mail.ru OSPF используется внутри наземного сегмента управления. Спутниковые линки часто выводятся в отдельный OSPF area или area stub — из-за высокого RTT на них нежелательны лишние LSA-флуды.</div>
+
+    <div class="qa-list">
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Как OSPF узнаёт о маршрутах? <span class="arrow">▼</span></div>
+        <div class="qa-a">1. Роутеры отправляют <strong>Hello-пакеты</strong> (каждые 10 сек) и находят соседей (neighbor)<br>2. Устанавливают adjacency (отношение соседства) — обмениваются базой данных через DBD/LSR/LSU<br>3. Каждый роутер имеет одинаковую <strong>LSDB (Link State Database)</strong> — карту всей сети<br>4. Алгоритм <strong>Dijkstra (SPF)</strong> строит дерево кратчайших путей<br>5. Результат попадает в таблицу маршрутизации</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Что такое OSPF Area и зачем нужна? <span class="arrow">▼</span></div>
+        <div class="qa-a">Деление сети на зоны для снижения нагрузки. <strong>Area 0 (Backbone)</strong> — обязательная центральная зона, все другие areas подключаются к ней.<br><br>Смысл: LSA (Link State Advertisement) флудится только внутри своей area. Изменение топологии в Area 1 не перегружает Area 2. ABR (Area Border Router) суммаризирует маршруты между зонами.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">OSPF vs RIP — почему OSPF выбирают в корпоративных сетях? <span class="arrow">▼</span></div>
+        <div class="qa-a">RIP считает расстояние в хопах (максимум 15), медленно сходится (до 3 минут), плохо масштабируется.<br><br>OSPF: метрика — cost (скорость интерфейса), быстрая сходимость (секунды), масштабируется через Areas, поддерживает VLSM и summarization. Для любой реальной сети — только OSPF или его аналоги.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Что такое DR/BDR и зачем? <span class="arrow">▼</span></div>
+        <div class="qa-a">В сегменте с несколькими роутерами (Ethernet) без DR каждый роутер строил бы adjacency с каждым — N*(N-1)/2 отношений. <strong>DR (Designated Router)</strong> — главный, к нему подключаются все. <strong>BDR (Backup DR)</strong> — резервный. Остальные устанавливают adjacency только с DR/BDR. Выбирается по наибольшему Priority (по умолчанию 1), при равенстве — по Router-ID.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ BGP ══════════ -->
+  <div class="topic" id="bgp">
+    <div class="topic-header">
+      <div class="topic-num">05</div>
+      <div class="topic-meta">
+        <h2>BGP — Border Gateway Protocol</h2>
+        <div class="topic-badges">
+          <span class="badge b-proto">EGP · L3</span>
+          <span class="badge b-high">клей интернета</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="oneliner">BGP — протокол обмена маршрутами между автономными системами (AS). Именно он решает, как пакет попадает из сети Ростелекома в Google.</div>
+
+    <div class="qa-list">
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Чем BGP отличается от OSPF? <span class="arrow">▼</span></div>
+        <div class="qa-a"><strong>OSPF</strong> — IGP (Interior Gateway Protocol), работает внутри одной AS. Строит маршруты по метрике cost (скорость). Быстрая сходимость.<br><br><strong>BGP</strong> — EGP (Exterior Gateway Protocol), работает между AS. Строит маршруты по policy (политикам). Медленная сходимость, но огромный масштаб — весь интернет использует BGP.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">iBGP vs eBGP <span class="arrow">▼</span></div>
+        <div class="qa-a"><strong>eBGP</strong> — между разными AS (между провайдерами). Соседи обычно напрямую подключены.<br><br><strong>iBGP</strong> — внутри одной AS между её роутерами. Нужен чтобы распространить маршруты, полученные от eBGP-соседей. Требует full mesh или Route Reflector.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Что такое AS и ASN? <span class="arrow">▼</span></div>
+        <div class="qa-a"><strong>AS (Autonomous System)</strong> — группа IP-сетей под единым административным управлением с единой routing policy. Пример: Ростелеком = AS12389, Google = AS15169.<br><br><strong>ASN</strong> — 16- или 32-битный номер, присваивается RIPE/ARIN. Приватные ASN: 64512–65534. mss777@mail.ru как оператор связи имеет свой ASN.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Атрибуты BGP — что знаешь? <span class="arrow">▼</span></div>
+        <div class="qa-a"><strong>AS-PATH</strong> — список AS, через которые прошёл маршрут. Чем короче, тем лучше (и защита от петель).<br><br><strong>LOCAL_PREF</strong> — предпочтение внутри AS, какой выход выбрать. Выше = лучше.<br><br><strong>MED (Metric)</strong> — подсказка соседней AS, через какую точку входа к нам лучше посылать.<br><br><strong>NEXT_HOP</strong> — IP следующего хопа для маршрута.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ VRF ══════════ -->
+  <div class="topic" id="vrf">
+    <div class="topic-header">
+      <div class="topic-num">06</div>
+      <div class="topic-meta">
+        <h2>VRF — Virtual Routing and Forwarding</h2>
+        <div class="topic-badges">
+          <span class="badge b-proto">L3 виртуализация</span>
+          <span class="badge b-mid">средний приоритет</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="oneliner">VRF создаёт несколько независимых таблиц маршрутизации на одном физическом роутере. Как несколько виртуальных роутеров в одном железе.</div>
+
+    <div class="qa-list">
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Зачем нужен VRF, приведи реальный пример <span class="arrow">▼</span></div>
+        <div class="qa-a">Провайдер обслуживает Клиента А и Клиента Б на одном оборудовании. У обоих адресация <code>10.0.0.0/24</code> — конфликт. VRF изолирует их: каждый видит только свою таблицу маршрутов, адреса не пересекаются.<br><br>У mss777@mail.ru — изоляция трафика управления спутниковыми терминалами (management VRF) от пользовательского трафика.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">VRF vs VLAN — в чём разница? <span class="arrow">▼</span></div>
+        <div class="qa-a"><strong>VLAN</strong> — изоляция на L2 (коммутация). Работает на коммутаторах.<br><strong>VRF</strong> — изоляция на L3 (маршрутизация). Работает на роутерах и L3-коммутаторах.<br><br>Типичная схема: VLAN изолирует физически → интерфейс VLAN назначается в VRF → VRF определяет маршрутизацию. Они дополняют друг друга.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Что такое VRF Lite vs MPLS VRF? <span class="arrow">▼</span></div>
+        <div class="qa-a"><strong>VRF Lite</strong> — простой VRF без MPLS, только на локальном роутере. Подходит для разделения трафика в одном устройстве.<br><br><strong>MPLS VPN (L3VPN)</strong> — VRF растянут через MPLS-сеть провайдера. CE-роутер клиента подключается к PE-роутеру провайдера, и маршруты клиента передаются через MP-BGP с разными Route Distinguisher (RD). Это основа VPN-услуг операторов.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ MPLS ══════════ -->
+  <div class="topic" id="mpls">
+    <div class="topic-header">
+      <div class="topic-num">07</div>
+      <div class="topic-meta">
+        <h2>MPLS — Multiprotocol Label Switching</h2>
+        <div class="topic-badges">
+          <span class="badge b-proto">L2.5</span>
+          <span class="badge b-mid">операторская технология</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="oneliner">MPLS добавляет «ярлык» (label) к пакету. Роутеры пересылают пакет по ярлыку, не глядя в IP-заголовок — быстро и предсказуемо.</div>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 620 120" xmlns="http://www.w3.org/2000/svg">
+        <!-- Packet structure -->
+        <rect x="10" y="10" width="600" height="40" rx="5" fill="#0b0f1a" stroke="#1a2235" stroke-width="1"/>
+        <rect x="10" y="10" width="80" height="40" rx="5" fill="#1a2235" stroke="#f87171" stroke-width="0.5" stroke-opacity="0.5"/>
+        <text x="50" y="35" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#fca5a5">Ethernet</text>
+        <rect x="90" y="10" width="80" height="40" rx="0" fill="#1a2235" stroke="#fbbf24" stroke-width="0.5" stroke-opacity="0.7"/>
+        <text x="130" y="27" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#fde68a">MPLS Label</text>
+        <text x="130" y="41" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="#fbbf24" opacity="0.6">20bit+TC+S+TTL</text>
+        <rect x="170" y="10" width="80" height="40" rx="0" fill="#1a2235" stroke="#fbbf24" stroke-width="0.5" stroke-opacity="0.7"/>
+        <text x="210" y="35" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#fde68a">Label 2</text>
+        <rect x="250" y="10" width="80" height="40" rx="0" fill="#1a2235" stroke="#3b82f6" stroke-width="0.5" stroke-opacity="0.5"/>
+        <text x="290" y="35" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#93c5fd">IP Header</text>
+        <rect x="330" y="10" width="280" height="40" rx="0" fill="#1a2235" stroke="#34d399" stroke-width="0.5" stroke-opacity="0.3"/>
+        <text x="470" y="35" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#6ee7b7">Payload (данные)</text>
+
+        <!-- Node path -->
+        <text x="20" y="80" font-family="'JetBrains Mono',monospace" font-size="9" fill="#64748b">CE</text>
+        <text x="20" y="92" font-family="'JetBrains Mono',monospace" font-size="8" fill="#3b82f6">клиент</text>
+        <text x="130" y="80" font-family="'JetBrains Mono',monospace" font-size="9" fill="#fde68a">PE (ingress)</text>
+        <text x="130" y="92" font-family="'JetBrains Mono',monospace" font-size="8" fill="#fbbf24">добавляет метку</text>
+        <text x="290" y="80" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">P (core)</text>
+        <text x="290" y="92" font-family="'JetBrains Mono',monospace" font-size="8" fill="#64748b">свапает метку</text>
+        <text x="450" y="80" font-family="'JetBrains Mono',monospace" font-size="9" fill="#fde68a">PE (egress)</text>
+        <text x="450" y="92" font-family="'JetBrains Mono',monospace" font-size="8" fill="#fbbf24">снимает метку</text>
+        <text x="580" y="80" font-family="'JetBrains Mono',monospace" font-size="9" fill="#64748b">CE</text>
+        <text x="580" y="92" font-family="'JetBrains Mono',monospace" font-size="8" fill="#3b82f6">клиент</text>
+
+        <line x1="60" y1="86" x2="125" y2="86" stroke="#64748b" stroke-width="0.5" stroke-opacity="0.5"/>
+        <line x1="225" y1="86" x2="285" y2="86" stroke="#64748b" stroke-width="0.5" stroke-opacity="0.5"/>
+        <line x1="370" y1="86" x2="445" y2="86" stroke="#64748b" stroke-width="0.5" stroke-opacity="0.5"/>
+        <line x1="540" y1="86" x2="575" y2="86" stroke="#64748b" stroke-width="0.5" stroke-opacity="0.5"/>
+      </svg>
+    </div>
+
+    <div class="qa-list">
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Зачем нужен MPLS, если есть обычная IP-маршрутизация? <span class="arrow">▼</span></div>
+        <div class="qa-a">1. <strong>Скорость</strong> — пересылка по 20-битному label быстрее, чем IP Longest Prefix Match<br>2. <strong>Traffic Engineering</strong> — можно задать конкретный путь через сеть (RSVP-TE), нагрузка распределяется явно<br>3. <strong>VPN (L3VPN, L2VPN)</strong> — основа для VRF-based VPN у операторов<br>4. <strong>QoS</strong> — классификация трафика по меткам</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Операции с MPLS-метками: push, swap, pop <span class="arrow">▼</span></div>
+        <div class="qa-a"><strong>Push (impose)</strong> — PE ingress добавляет метку к пакету при входе в MPLS-сеть<br><strong>Swap</strong> — P (core) роутер меняет одну метку на другую и пересылает дальше<br><strong>Pop</strong> — PE egress снимает метку и передаёт обычный IP-пакет клиенту<br><br>Стек меток: в L3VPN две метки — внешняя (транспортная) и внутренняя (VPN). PHP (Penultimate Hop Popping) — предпоследний роутер снимает внешнюю метку.</div>
+      </div>
+    </div>
+
+    <div class="score-tip">Если не работал с MPLS — честно скажи "читал концептуально, на железе не настраивал". Они это оценят больше, чем путаные объяснения.</div>
+  </div>
+
+  <!-- ══════════ MONITORING ══════════ -->
+  <div class="topic" id="monitoring">
+    <div class="topic-header">
+      <div class="topic-num">08</div>
+      <div class="topic-meta">
+        <h2>Мониторинг: Zabbix, Grafana, Prometheus</h2>
+        <div class="topic-badges">
+          <span class="badge b-tool">обязательный инструмент</span>
+          <span class="badge b-mid">в вакансии явно</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="oneliner">Zabbix — сбор метрик с сетевых устройств и серверов. Grafana — красивые дашборды поверх любых данных. Prometheus — сбор метрик от микросервисов.</div>
+
+    <table class="cmp-table">
+      <tr><th>Система</th><th>Сильная сторона</th><th>Используется для</th></tr>
+      <tr><td>Zabbix</td><td>Агентный и агентлесс мониторинг. SNMP, IPMI, JMX. Хороший alerting. Self-hosted.</td><td>Сетевое оборудование, серверы, SNMP-трапы с роутеров Cisco/Mikrotik</td></tr>
+      <tr><td>Prometheus</td><td>Time-series DB. Pull-модель. Отличная интеграция с K8s.</td><td>Микросервисы, cloud-native инфраструктура</td></tr>
+      <tr><td>Grafana</td><td>Визуализация из любого источника (Prometheus, InfluxDB, Zabbix, Elasticsearch).</td><td>NOC-дашборды, отчёты по SLA</td></tr>
+    </table>
+
+    <div class="qa-list">
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Как Zabbix мониторит сетевое устройство? <span class="arrow">▼</span></div>
+        <div class="qa-a">Три способа:<br><br><strong>SNMP</strong> — роутер отправляет данные по OID через UDP 161. Zabbix опрашивает device по SNMP community string. Шаблоны для Cisco, Mikrotik, Juniper готовы из коробки.<br><br><strong>Zabbix Agent</strong> — для серверов. Агент на хосте → Push данных на Zabbix Server.<br><br><strong>ICMP Ping</strong> — проверка доступности. Потери, RTT — простейший и обязательный мониторинг.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Что такое SNMP Trap? <span class="arrow">▼</span></div>
+        <div class="qa-a">В отличие от polling (Zabbix спрашивает устройство), <strong>SNMP Trap</strong> — устройство само инициативно посылает уведомление при событии (порт упал, температура превышена, аутентификация провалилась). Приходит на UDP 162. В Zabbix настраивается <code>snmptrap</code> receiver.<br><br>Для спутниковых терминалов VSAT — критично: при потере сигнала терминал шлёт трап немедленно, не ждёт polling-интервала.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Какие метрики важнее всего мониторить на сети? <span class="arrow">▼</span></div>
+        <div class="qa-a">
+          <strong>Доступность:</strong> ICMP ping, SNMP uptime<br>
+          <strong>Трафик:</strong> ifInOctets/ifOutOctets (скорость на интерфейсах)<br>
+          <strong>Ошибки:</strong> ifInErrors, ifOutErrors, CRC, discards<br>
+          <strong>CPU/Memory:</strong> роутера и коммутатора<br>
+          <strong>BGP/OSPF:</strong> состояние соседей (neighborship up/down)<br>
+          <strong>Специфика VSAT:</strong> уровень сигнала (Eb/No, SNR), packet loss через спутниковый канал
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ VoIP ══════════ -->
+  <div class="topic" id="voip">
+    <div class="topic-header">
+      <div class="topic-num">09</div>
+      <div class="topic-meta">
+        <h2>IP-телефония (VoIP/SIP)</h2>
+        <div class="topic-badges">
+          <span class="badge b-tool">требование вакансии</span>
+          <span class="badge b-mid">понимание принципов</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="oneliner">SIP управляет звонками (набор, ответ, сброс). RTP передаёт голос. Это как HTTP и TCP — два разных протокола для разных задач.</div>
+
+    <div class="qa-list">
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Как работает SIP-звонок? <span class="arrow">▼</span></div>
+        <div class="qa-a">1. <strong>SIP INVITE</strong> → абонент A предлагает соединение абоненту B (содержит SDP — описание медиа-потока)<br>2. <strong>180 Ringing</strong> → идут гудки<br>3. <strong>200 OK</strong> → B ответил<br>4. <strong>ACK</strong> → подтверждение, соединение установлено<br>5. <strong>RTP-поток</strong> → голос идёт напрямую между абонентами по UDP<br>6. <strong>BYE</strong> → завершение звонка<br><br>SIP работает на порту <code>5060</code> (UDP/TCP) или <code>5061</code> (TLS).</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Проблемы VoIP за NAT и как решать? <span class="arrow">▼</span></div>
+        <div class="qa-a">SIP включает IP-адрес в тело сообщения (SDP). За NAT этот адрес приватный и снаружи недоступен. Решения:<br><br><strong>STUN</strong> — клиент узнаёт свой публичный IP<br><strong>TURN</strong> — трафик идёт через посредника<br><strong>ALG (Application Layer Gateway)</strong> — роутер сам переписывает SIP<br><strong>SBC (Session Border Controller)</strong> — профессиональное решение для операторов</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Что такое кодек и почему G.711 vs G.729? <span class="arrow">▼</span></div>
+        <div class="qa-a"><strong>G.711</strong> — без сжатия. 64 Кбит/с. Высокое качество, высокая полоса. Корпоративные сети с хорошим каналом.<br><br><strong>G.729</strong> — сжатие с потерями. 8 Кбит/с. Качество чуть хуже, но подходит для узких каналов. Критично для спутниковых линков VSAT — там полоса дорогая.<br><br>Голос чувствителен к <strong>jitter</strong> (вариация задержки) и <strong>packet loss</strong>. Для QoS голос помечают DSCP EF (Expedited Forwarding) и приоритизируют в очереди.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ AUTOMATION ══════════ -->
+  <div class="topic" id="automation">
+    <div class="topic-header">
+      <div class="topic-num">10</div>
+      <div class="topic-meta">
+        <h2>Автоматизация: Ansible + Python</h2>
+        <div class="topic-badges">
+          <span class="badge b-tool">Ansible/Terraform + Python</span>
+          <span class="badge b-ok">твой козырь!</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="oneliner">Ansible = управление конфигурацией без агентов через SSH/API. Python = Netmiko/NAPALM для работы с железом. У тебя есть Python — это реальное преимущество.</div>
+
+    <div class="sat-hint">В резюме: Python-скрипты для диагностики оборудования, парсинг логов, PowerShell-резервирование. Это напрямую ложится на требования вакансии. Обязательно проведи параллель с сетевым оборудованием.</div>
+
+    <div class="qa-list">
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Как Ansible применяется в сетях? <span class="arrow">▼</span></div>
+        <div class="qa-a">Ansible управляет конфигурацией сетевых устройств без агентов — через SSH или API.<br><br>Пример: обновить OSPF-конфигурацию на 50 роутерах сразу. Пишешь <strong>Playbook</strong> (YAML), указываешь <strong>Inventory</strong> (список устройств), модуль <code>cisco.ios.ios_config</code> применяет изменения.<br><br>Модули: <code>cisco.ios</code>, <code>community.network.routeros</code> (Mikrotik), <code>junipernetworks.junos</code>. Интеграция с NetBox как источником inventory.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Python библиотеки для работы с сетевым оборудованием <span class="arrow">▼</span></div>
+        <div class="qa-a"><strong>Netmiko</strong> — SSH-подключение к Cisco, Mikrotik, Juniper. Отправить команду, получить вывод. Основа для скриптов диагностики.<br><br><strong>NAPALM</strong> — унифицированный API для разных вендоров. Один и тот же код работает на Cisco IOS и Juniper JunOS.<br><br><strong>Nornir</strong> — фреймворк для параллельного выполнения задач на парке устройств.<br><br>Скажи: "У меня есть опыт написания Python-скриптов для парсинга данных оборудования в авиации — готов применить к сетевой автоматизации".</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Что такое NetBox и зачем он нужен? <span class="arrow">▼</span></div>
+        <div class="qa-a"><strong>NetBox</strong> — CMDB (Configuration Management Database) для сетевой инфраструктуры. Хранит: IP-адреса, VLAN, устройства, кабельную разводку, интерфейсы, стойки.<br><br>Это то, что в вакансии называется "технический учёт, ресурсный и адресный план". NetBox + API → автоматически генерить конфиги из данных CMDB.<br><br>Если не работал — упомяни что использовал Excel/внутренние системы для учёта оборудования (в авиации точно было).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ CISCO/MIKROTIK ══════════ -->
+  <div class="topic" id="cisco">
+    <div class="topic-header">
+      <div class="topic-num">11</div>
+      <div class="topic-meta">
+        <h2>Cisco IOS и Mikrotik RouterOS — шпаргалка команд</h2>
+        <div class="topic-badges">
+          <span class="badge b-tool">практический уровень</span>
+          <span class="badge b-ok">базовые команды</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="oneliner">Знание команд — бонус. Важнее понимать принципы. Но несколько ключевых команд нужно знать наизусть.</div>
+
+    <table class="cmp-table">
+      <tr><th>Задача</th><th>Cisco IOS</th><th>Mikrotik RouterOS</th></tr>
+      <tr><td>Показать маршруты</td><td><code>show ip route</code></td><td><code>/ip route print</code></td></tr>
+      <tr><td>Показать интерфейсы</td><td><code>show interfaces</code></td><td><code>/interface print</code></td></tr>
+      <tr><td>OSPF соседи</td><td><code>show ip ospf neighbor</code></td><td><code>/routing ospf neighbor print</code></td></tr>
+      <tr><td>BGP соседи</td><td><code>show bgp neighbors</code></td><td><code>/routing bgp peer print</code></td></tr>
+      <tr><td>Ping из устройства</td><td><code>ping 8.8.8.8 source lo0</code></td><td><code>/ping 8.8.8.8</code></td></tr>
+      <tr><td>Трассировка</td><td><code>traceroute 8.8.8.8</code></td><td><code>/tool traceroute 8.8.8.8</code></td></tr>
+      <tr><td>Сохранить конфиг</td><td><code>write memory / copy run start</code></td><td><code>/export file=backup</code></td></tr>
+      <tr><td>NAT masquerade</td><td><code>ip nat inside source list … overload</code></td><td><code>/ip firewall nat add … action=masquerade</code></td></tr>
+    </table>
+
+    <div class="qa-list">
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Какие сертификаты Cisco/Mikrotik стоит упомянуть? <span class="arrow">▼</span></div>
+        <div class="qa-a">В вакансии: <strong>CCNA / CCNP</strong> (Cisco), <strong>MTCRE / MTCINE / MTCTCE</strong> (Mikrotik).<br><br>Если нет — честно: "Сертификатов нет, но прохожу/планирую CCNA". Mikrotik предлагает онлайн-курсы с экзаменами — можно получить MTCNA за неделю интенсивного изучения.<br><br>Важнее: показать, что понимаешь принципы и можешь разобраться с любым вендором по документации (у тебя B2 английский — козырь).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ INTERVIEW TACTICS ══════════ -->
+  <div class="topic" id="interview">
+    <div class="topic-header">
+      <div class="topic-num">★</div>
+      <div class="topic-meta">
+        <h2>Тактика интервью</h2>
+        <div class="topic-badges">
+          <span class="badge b-ok">читать перед собеседованием</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="oneliner">mss777@mail.ru ценит тех, кто "объясняет сложное простыми словами" — их слова. Это буквально написано в карточке компании.</div>
+
+    <div class="qa-list">
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Что сказать о пробеле в сетевом опыте? <span class="arrow">▼</span></div>
+        <div class="qa-a">"Я инженер с сильным техническим фундаментом — радиотехника, авиационные системы, Python-автоматизация. Сетевые протоколы изучал на уровне системного понимания. На оборудовании Cisco/Mikrotik самостоятельно практиковался в лабораторных условиях [если правда — скажи]. Основная ценность для вас — я быстро разбираюсь в новом, умею читать документацию на английском и автоматизировать рутину."</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Как использовать контекст спутниковой связи? <span class="arrow">▼</span></div>
+        <div class="qa-a">Упомяни связь между твоим опытом и их бизнесом:<br>— Радиолокация и радионавигация → понимание RF-среды, на которой работает VSAT<br>— Мониторинг метеооборудования на Python → то же самое для сетевых устройств через Netmiko/Zabbix<br>— Документация по ICAO → опыт работы со стандартизированной технической документацией<br><br>Это показывает, что ты понимаешь их бизнес, а не просто знаешь протоколы.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Вопросы которые стоит задать работодателю <span class="arrow">▼</span></div>
+        <div class="qa-a">— "Какие вендоры преобладают в парке оборудования — Cisco, Mikrotik, или есть отечественные?"<br>— "Как организован мониторинг спутниковых терминалов — есть ли интеграция Zabbix с NMS вендоров?"<br>— "Насколько развита автоматизация конфигурирования — используете Ansible или всё ещё вручную?"<br>— "Есть ли практика внутреннего обучения или сертификационная поддержка?"<br><br>Вопросы показывают, что ты уже думаешь как член команды, а не кандидат.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggle(this)">Чего не делать на интервью <span class="arrow">▼</span></div>
+        <div class="qa-a">— Не угадывать правильный ответ если не знаешь — лучше "не сталкивался, но логика такова..."<br>— Не преувеличивать опыт с конкретным оборудованием — проверят за 5 минут<br>— Не молчать если не понял вопрос — переспроси или попроси уточнить<br>— Не зацикливаться на терминах — объясни суть, потом термин. Компания явно ценит умение объяснять.</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+const topics = [
+  {id:'tcpip',label:'TCP/IP'},
+  {id:'vlan',label:'VLAN'},
+  {id:'nat',label:'NAT'},
+  {id:'ospf',label:'OSPF'},
+  {id:'bgp',label:'BGP'},
+  {id:'vrf',label:'VRF'},
+  {id:'mpls',label:'MPLS'},
+  {id:'monitoring',label:'Zabbix'},
+  {id:'voip',label:'VoIP/SIP'},
+  {id:'automation',label:'Ansible'},
+  {id:'cisco',label:'Cisco/MK'},
+  {id:'interview',label:'Тактика'},
+];
+
+const saved = JSON.parse(localStorage.getItem('interview_done')||'{}');
+const pg = document.getElementById('pg');
+topics.forEach(t=>{
+  const el = document.createElement('div');
+  el.className = 'prog-item' + (saved[t.id]?' done':'');
+  el.innerHTML = `<span class="check">${saved[t.id]?'✓':'○'}</span>${t.label}`;
+  el.onclick = ()=>{
+    saved[t.id] = !saved[t.id];
+    localStorage.setItem('interview_done', JSON.stringify(saved));
+    el.className = 'prog-item' + (saved[t.id]?' done':'');
+    el.querySelector('.check').textContent = saved[t.id]?'✓':'○';
+  };
+  pg.appendChild(el);
+});
+
+function toggle(el){
+  const ans = el.nextElementSibling;
+  const isOpen = ans.classList.contains('open');
+  document.querySelectorAll('.qa-a').forEach(a=>a.classList.remove('open'));
+  document.querySelectorAll('.qa-q').forEach(q=>q.classList.remove('open'));
+  if(!isOpen){ans.classList.add('open'); el.classList.add('open');}
+}
+
+function setActive(el){
+  setTimeout(()=>{
+    document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
+    el.classList.add('active');
+  },50);
+}
+
+// Auto-highlight nav on scroll
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const id = e.target.id;
+      document.querySelectorAll('nav a').forEach(a=>{
+        a.classList.toggle('active', a.getAttribute('href')==='#'+id);
+      });
+    }
+  });
+},{threshold:0.3});
+document.querySelectorAll('.topic').forEach(t=>observer.observe(t));
+</script>
+</body>
+</html>
