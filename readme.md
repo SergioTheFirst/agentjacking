@@ -4,14 +4,27 @@ Static, single-page site: a live canvas diagram explaining AI agent hijacking (i
 
 No build step, no framework, no dependencies — `index.html` is the entire site (inline CSS/JS). Open it directly or serve the directory as-is.
 
+The repo also hosts `interview_prep.html`, a standalone, unrelated single-file cheatsheet (Russian-language network engineering interview prep) with its own test suite — it shares no code or content with the agentjacking site.
+
 ## Files
 
 | File | Purpose |
 |---|---|
-| `index.html` | The page: canvas animation, meta tags, JSON-LD structured data, no-JS fallback text |
+| `index.html` | The agentjacking.ru page: canvas animation, meta tags, JSON-LD structured data, no-JS fallback text |
 | `robots.txt` | Crawler directives, incl. explicit AI-crawler allowlist |
 | `sitemap.xml` | Single-URL sitemap |
 | `llms.txt` | Machine-readable site summary for LLM/AI-answer-engine crawlers ([llmstxt.org](https://llmstxt.org) standard) |
+| `interview_prep.html` | Standalone network-engineering interview cheatsheet (unrelated content, self-contained) |
+| `test_interview_prep.mjs` | Structural + headless-browser test suite for `interview_prep.html` |
+| `package.json` | `npm test` entrypoint for the interview-prep test suite |
+
+## Testing
+
+```
+npm test
+```
+
+Runs `test_interview_prep.mjs` against `interview_prep.html`: verifies required topic sections exist, nav links match section ids, visual-diagram coverage per topic, and does two headless-browser smoke runs to confirm the page loads and renders consistently.
 
 ## AI indexing rules (GEO setup)
 
