@@ -1,12 +1,10 @@
 # agentjacking.ru
 
-> A live, endless terminal-style diagram of how an AI agent gets hijacked via indirect prompt injection — and a premium domain name for sale.
+> A live, terminal-style diagram of how an AI agent gets hijacked via indirect prompt injection, plus a free Russian-language network-engineer interview handbook. The domain agentjacking.ru is for sale — contact mss777@mail.ru.
 
-## About
+Two-page static site, no build step. The core message of every page is readable without JavaScript: each page ships plain-text fallback content plus JSON-LD structured data, so AI answer engines (ChatGPT, Claude, Perplexity, Google AI Overviews) and non-JS crawlers can cite it directly.
 
-agentjacking.ru is a single-page animated diagram explaining **agent hijacking** (indirect prompt injection): the attack chain by which an AI agent's real goal is silently overridden by instructions hidden inside an external source it reads (a webpage, document, tool output, or API response).
-
-## Attack chain shown on this page
+**Agent hijacking (indirect prompt injection)** is when an AI agent's real goal is silently overridden by instructions hidden inside an external, untrusted source it reads — a webpage, a document, a tool output, or an API response. The attack chain:
 
 1. A user delegates a task to the agent.
 2. The agent reaches into an external, untrusted source to do its job.
@@ -19,8 +17,14 @@ One poisoned input is enough to hijack an agent.
 
 ## Pages
 
-- `agentjacking.ru -> https://agentjacking.ru/`: Live diagram of the agent-hijacking / indirect-prompt-injection attack chain.
+- [agentjacking — live agent-hijacking diagram](https://agentjacking.ru/): Animated terminal-style diagram of the attack chain, plain-text definition in English and Russian, JSON-LD `WebPage`/`WebSite`/`DefinedTerm`/`Product`+`Offer`.
+- [Network engineer's interview handbook](https://agentjacking.ru/interview_prep.html): Interactive, Russian-language interview prep — TCP/IP, IP addressing & subnetting, VLAN, STP, NAT, OSPF, BGP, VRF, MPLS, ACL & firewalls, DHCP/DNS, VPN/IPSec, troubleshooting L1–L7, monitoring (Zabbix, Grafana, Prometheus), VoIP/SIP, automation (Ansible + Python), Cisco IOS & MikroTik RouterOS commands, interview tactics — with self-check Q&A and a subnet calculator.
+
+## Machine-readable files
+
+- [sitemap.xml](https://agentjacking.ru/sitemap.xml): Both URLs with tracked `lastmod`.
+- [robots.txt](https://agentjacking.ru/robots.txt): Clean allowlist for AI answer-engine crawlers.
 
 ## Domain for sale
 
-This domain, agentjacking.ru, is for sale. Contact: mss777@mail.ru
+- [agentjacking.ru — contact mss777@mail.ru](mailto:mss777@mail.ru): The domain itself is for sale; declared machine-readable as `Product`/`Offer` in the main page's JSON-LD.
