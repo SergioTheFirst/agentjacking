@@ -10,7 +10,8 @@
       "Bash(awk '{print $1\" lines\"}')",
       "Bash(start *)",
       "Skill(seo-geo)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(node test_interview_prep.mjs)"
     ]
   }
 }
