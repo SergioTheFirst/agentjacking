@@ -1,0 +1,42 @@
+# agentjacking.ru
+
+> A live, terminal-style diagram of how an AI agent gets hijacked via indirect prompt injection, plus a free interactive Russian-language course that prepares network engineers for interviews: 18 topics explained in plain language, 59 Q&A, 35 mini-quizzes with explanations, 6 hands-on troubleshooting cases, a subnet drill trainer and calculator, a final exam mode, and gamified progress. The domain agentjacking.ru is for sale — contact mss777@mail.ru.
+
+Two-page static site, no build step, zero dependencies. The core message of every page is readable without JavaScript: each page ships static fallback content plus JSON-LD structured data, so AI answer engines (ChatGPT, Claude, Perplexity, Google AI Overviews) and non-JS crawlers can cite it directly.
+
+**Agent hijacking (indirect prompt injection)** is when an AI agent's real goal is silently overridden by instructions hidden inside an external, untrusted source it reads — a webpage, a document, a tool output, or an API response. The attack chain:
+
+1. A user delegates a task to the agent.
+2. The agent reaches into an external, untrusted source to do its job.
+3. An attacker has hidden instructions inside that source.
+4. The poisoned content flows back into the agent's context.
+5. The hidden text overrides the agent's real goal.
+6. The hijacked agent now acts for the attacker instead of the user — exfiltrating data or taking unauthorized actions.
+
+One poisoned input is enough to hijack an agent.
+
+## Pages
+
+- [agentjacking — live agent-hijacking diagram](https://agentjacking.ru/): Animated terminal-style diagram of the six-step attack chain, plain-text definition in English and Russian (inside `<canvas>`, readable by non-JS crawlers), JSON-LD `WebPage`/`WebSite`/`DefinedTerm`/`Product`+`Offer`.
+- [Network engineer's interview course](https://agentjacking.ru/interview_prep.html): Free interactive Russian-language interview prep structured as a 5-step learning loop per topic (read → answer aloud → quiz → hands-on case → final exam). 18 topics — TCP/IP, IP addressing & subnetting, VLAN, STP, NAT, OSPF, BGP, VRF, MPLS, ACL & firewalls, DHCP/DNS, VPN/IPSec, troubleshooting L1–L7, monitoring (Zabbix/Grafana/Prometheus), VoIP/SIP, automation (Ansible + Python), Cisco IOS & MikroTik RouterOS commands, interview tactics. Every topic has a one-line essence, a plain-language "for beginners" explainer with an everyday analogy, SVG diagrams and an interview-style answer; 59 self-check Q&A give instant explanations with retry; 35 mini-quizzes explain the right answer; 6 practical case labs walk through real incidents step by step (MTU blackhole, OSPF hello mismatch, ACL rule order, native-VLAN mismatch, NAT port forwarding, no-internet triage); a subnet drill trainer generates random /22–/30 tasks; a built-in IPv4 subnet calculator computes network, broadcast, first/last host and host count for any /0–/32 prefix; a final exam mode draws 10 random questions across all topics (70% pass threshold, +60 XP on first pass); progress is gamified (XP per correct quiz answer, levels 1–10, answer streaks, six achievement badges) and stored in localStorage. All topic content is static HTML, so it is fully readable without JavaScript.
+
+## Key facts
+
+- Handbook language: Russian; landing page: English + Russian.
+- 18 topics, each with a visual diagram (100% visual coverage), a plain-language beginner explainer and self-check Q&A (59 questions total).
+- 35 mini-quizzes with instant answer explanations; 6 practical case labs (real incident walk-throughs).
+- Subnet calculator covers any IPv4 prefix /0–/32, including /31 and /32 edge cases; subnet drill trainer generates random /22–/30 tasks with XP rewards.
+- Final exam mode: 10 random questions across all topics, 70% pass threshold, +60 XP on first successful pass (`mss_exam_passed` in localStorage).
+- Gamification: +20 XP per correct quiz answer, +10/+4 XP per solved drill task, +2 XP per calculation, levels 1–10, best-streak tracking, 6 badges; progress persists client-side in localStorage (`mss_game`); legacy `interview_done` keys migrate automatically.
+- Light high-contrast theme (Inter + JetBrains Mono), readable without JavaScript.
+- Verified by a structural + headless-browser test suite (`npm test`: topic/nav integrity, visual coverage, phrasing checks, two browser smoke runs).
+- Last updated: 2026-08-24.
+
+## Machine-readable files
+
+- [sitemap.xml](https://agentjacking.ru/sitemap.xml): Both URLs with tracked `lastmod`.
+- [robots.txt](https://agentjacking.ru/robots.txt): Explicit allowlist for AI answer-engine crawlers (GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, Claude-User, Claude-SearchBot, anthropic-ai, PerplexityBot, Perplexity-User, Google-Extended, Applebot, Applebot-Extended, Bingbot, adidxbot, Meta-ExternalAgent, Meta-ExternalFetcher, YouBot, Amazonbot, AI2Bot, YandexBot, Bytespider, cohere-ai, CCBot).
+
+## Domain for sale
+
+- [agentjacking.ru — contact mss777@mail.ru](mailto:mss777@mail.ru): The domain itself is for sale; declared machine-readable as `Product`/`Offer` in the main page's JSON-LD.

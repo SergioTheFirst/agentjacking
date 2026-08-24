@@ -1,0 +1,14 @@
+{
+  "name": "agentjacking",
+  "version": "1.0.0",
+  "description": "Two-page static site: a live canvas diagram of AI agent hijacking (indirect prompt injection) doubling as the sales page for the domain agentjacking.ru, plus a Russian-language network-engineer interview handbook (interview_prep.html) with self-check Q&A and a test suite.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test_interview_prep.mjs",
+    "test:interview": "node test_interview_prep.mjs"
+  },
+  "keywords": ["agent hijacking", "indirect prompt injection", "AI agent security", "network engineer", "interview prep", "interview_prep", "Cisco", "MikroTik", "subnetting", "GEO", "llms.txt"],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
