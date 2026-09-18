@@ -8,8 +8,14 @@
   </url>
   <url>
     <loc>https://agentjacking.ru/interview_prep.html</loc>
-    <lastmod>2026-08-24</lastmod>
+    <lastmod>2026-08-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://agentjacking.ru/privacy.html</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
 </urlset>
