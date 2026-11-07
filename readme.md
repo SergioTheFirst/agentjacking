@@ -13,8 +13,9 @@ No build step, no framework, no package install. Open either HTML file directly 
 |---|---|
 | `index.html` | agentjacking.ru page: canvas animation, meta tags, JSON-LD structured data, no-JS fallback text |
 | `interview_prep.html` | Standalone interactive network-engineer interview course (Russian): 18 topics with plain-language explainers, 59 Q&A, 35 quizzes, 6 case labs, subnet drill + calculator, final exam mode, XP/levels/badges gamification — fully self-contained, light theme |
+| `docker.html` | Docker cheat sheet from zero (Russian): ready-made services, volumes, ports, Dockerfile, Compose, troubleshooting, practice with answers; static, no JS |
 | `robots.txt` | Crawler directives, incl. explicit AI-answer-engine crawler allowlist |
-| `sitemap.xml` | Both URLs with tracked `lastmod` |
+| `sitemap.xml` | All page URLs with tracked `lastmod` |
 | `llms.txt` | Machine-readable site summary for LLM / AI-answer-engine crawlers ([llmstxt.org](https://llmstxt.org) standard), incl. key facts and feature inventory |
 | `test_interview_prep.mjs` | Structural + headless-browser test suite for `interview_prep.html` |
 | `package.json` | `npm test` entrypoint for the interview-prep test suite |

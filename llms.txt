@@ -19,6 +19,7 @@ One poisoned input is enough to hijack an agent.
 
 - [agentjacking — live agent-hijacking diagram](https://agentjacking.ru/): Animated terminal-style diagram of the six-step attack chain, plain-text definition in English and Russian (inside `<canvas>`, readable by non-JS crawlers), JSON-LD `WebPage`/`WebSite`/`DefinedTerm`/`Product`+`Offer`.
 - [Network engineer's interview course](https://agentjacking.ru/interview_prep.html): Free interactive Russian-language interview prep structured as a 5-step learning loop per topic (read → answer aloud → quiz → hands-on case → final exam). 18 topics — TCP/IP, IP addressing & subnetting, VLAN, STP, NAT, OSPF, BGP, VRF, MPLS, ACL & firewalls, DHCP/DNS, VPN/IPSec, troubleshooting L1–L7, monitoring (Zabbix/Grafana/Prometheus), VoIP/SIP, automation (Ansible + Python), Cisco IOS & MikroTik RouterOS commands, interview tactics. Every topic has a one-line essence, a plain-language "for beginners" explainer with an everyday analogy, SVG diagrams and an interview-style answer; 59 self-check Q&A give instant explanations with retry; 35 mini-quizzes explain the right answer; 6 practical case labs walk through real incidents step by step (MTU blackhole, OSPF hello mismatch, ACL rule order, native-VLAN mismatch, NAT port forwarding, no-internet triage); a subnet drill trainer generates random /22–/30 tasks; a built-in IPv4 subnet calculator computes network, broadcast, first/last host and host count for any /0–/32 prefix; a final exam mode draws 10 random questions across all topics (70% pass threshold, +60 XP on first pass); progress is gamified (XP per correct quiz answer, levels 1–10, answer streaks, six achievement badges) and stored in localStorage. All topic content is static HTML, so it is fully readable without JavaScript.
+- [Docker cheat sheet](https://agentjacking.ru/docker.html): Russian-language Docker from zero, in plain words — run ready-made services, volumes, ports and container networks, Dockerfile, Docker Compose, troubleshooting, security basics, hands-on labs with answers.
 
 ## Key facts
 
@@ -34,7 +35,7 @@ One poisoned input is enough to hijack an agent.
 
 ## Machine-readable files
 
-- [sitemap.xml](https://agentjacking.ru/sitemap.xml): Both URLs with tracked `lastmod`.
+- [sitemap.xml](https://agentjacking.ru/sitemap.xml): All page URLs with tracked `lastmod`.
 - [robots.txt](https://agentjacking.ru/robots.txt): Explicit allowlist for AI answer-engine crawlers (GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, Claude-User, Claude-SearchBot, anthropic-ai, PerplexityBot, Perplexity-User, Google-Extended, Applebot, Applebot-Extended, Bingbot, adidxbot, Meta-ExternalAgent, Meta-ExternalFetcher, YouBot, Amazonbot, AI2Bot, YandexBot, Bytespider, cohere-ai, CCBot).
 
 ## Domain for sale

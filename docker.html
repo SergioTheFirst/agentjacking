@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Docker — шпаргалка с нуля</title>
+<meta name="description" content="Docker с нуля простыми словами: образы и контейнеры, команды, тома, порты и сети, Dockerfile, Docker Compose, отладка, безопасность, практика с ответами.">
+<link rel="canonical" href="https://agentjacking.ru/docker.html">
+<style>
+:root{color-scheme:dark;--bg:#0b0f1a;--bg2:#131c30;--bd:#2b3d5e;--ac:#7db4ff;--tx:#d6e0f0;--am:#fbbf24}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 system-ui,"Segoe UI",sans-serif}
+main,footer{max-width:860px;margin:auto;padding:0 16px}
+h1,h2,h3{color:#fff;line-height:1.3}
+h2{margin-top:40px;padding-top:16px;border-top:1px solid var(--bd)}
+a{color:var(--ac)}
+pre,code{font-family:ui-monospace,Consolas,"Courier New",monospace;font-size:14px}
+code{background:var(--bg2);padding:0 4px;border-radius:4px;overflow-wrap:anywhere}
+pre{background:var(--bg2);border:1px solid var(--bd);border-radius:6px;padding:10px 12px;overflow-x:auto;line-height:1.45}
+.w{color:var(--am)}
+summary{cursor:pointer;color:var(--ac);margin-top:8px}
+footer{margin:40px auto 24px;font-size:13px;opacity:.75}
+</style>
+</head>
+<body>
+<main>
+<p><a href="/">← agentjacking.ru</a></p>
+<h1>Docker: шпаргалка с нуля</h1>
+<p>Для тех, кто раньше не трогал Docker. Читай по порядку и сразу повторяй команды: 1–7 — запускать готовые сервисы, 8 — собрать свой образ, 9 — описать сервисы файлом, в конце практика.</p>
+<nav><a href="#what">Зачем</a> · <a href="#install">Установка</a> · <a href="#first">Первый сервис</a> · <a href="#cmd">Управление</a> · <a href="#data">Данные</a> · <a href="#net">Порты и сеть</a> · <a href="#any">Любой сервис</a> · <a href="#build">Dockerfile</a> · <a href="#compose">Compose</a> · <a href="#clean">Уборка</a> · <a href="#debug">Отладка</a> · <a href="#safe">Безопасность</a> · <a href="#lab">Практика</a></nav>
+
+<h2 id="what">1. Что это и зачем</h2>
+<p>Нужно поднять сайт, базу данных, облако для файлов, мониторинг или запустить чужой проект с GitHub. Без Docker: ставить пакеты, подбирать версии, чинить конфликты, а на другом компьютере всё заново. С Docker: одна команда — через минуту работает, не понравилось — удалил без следов. Почти любая программа уже лежит готовой на <a href="https://hub.docker.com">hub.docker.com</a>.</p>
+<p>Хватит трёх слов:</p>
+<ul>
+<li><b>Образ</b> — программа, упакованная со всем, что ей нужно. Как установщик: скачал один раз, запускай сколько угодно.</li>
+<li><b>Контейнер</b> — запущенный образ, то есть работающая программа. Удалил контейнер — образ остался, можно запустить заново.</li>
+<li><b>Том</b> — папка с данными программы, лежит отдельно от контейнера. Как сохранения в игре: переустановил игру — сохранения на месте.</li>
+</ul>
+<pre>
+ Docker Hub --скачать--> ОБРАЗ --запустить--> КОНТЕЙНЕР --данные--> ТОМ
+</pre>
+
+<h2 id="install">2. Установка</h2>
+<p><b>Linux-сервер</b>:</p>
+<pre>
+curl -fsSL https://get.docker.com | sudo sh   # поставить Docker
+sudo usermod -aG docker $USER                 # чтобы не писать sudo перед каждой командой
+</pre>
+<p>Выйди и зайди по SSH заново, потом проверь:</p>
+<pre>
+docker run hello-world    # написал "Hello from Docker!" — всё работает
+</pre>
+<p><b>Windows / macOS</b>: скачай Docker Desktop с docker.com, установи и запусти. Команды те же — в PowerShell или Терминале.</p>
+
+<h2 id="first">3. Первый сервис за минуту</h2>
+<p>Поднимем Uptime Kuma — веб-мониторинг: следит, работают ли твои сайты и серверы, и присылает уведомление (Telegram, почта), когда что-то упало.</p>
+<pre>
+docker run -d --name kuma -p 3001:3001 -v kuma-data:/app/data --restart unless-stopped louislam/uptime-kuma:1
+</pre>
+<p>Открой <code>http://IP-сервера:3001</code> (на своём компьютере — <code>http://localhost:3001</code>), заведи логин и добавь свой сайт. Разбор команды:</p>
+<pre>
+docker run                  # скачать образ (если ещё нет) и запустить контейнер
+-d                          # работать в фоне, терминал свободен
+--name kuma                 # имя контейнера, по нему им управлять
+-p 3001:3001                # порт сервера 3001 -> порт 3001 в контейнере
+-v kuma-data:/app/data      # данные программы хранить в томе kuma-data
+--restart unless-stopped    # упал или сервер перезагрузился — запустить снова
+louislam/uptime-kuma:1      # образ: автор/название:версия
+</pre>
+<pre>
+ браузер: http://сервер:3001
+        |
+        |  -p 3001:3001  (порт сервера -> порт контейнера)
+        v
+ [ контейнер kuma, порт 3001 ]
+        |
+        |  -v kuma-data:/app/data  (папка в контейнере -> том)
+        v
+ [ том kuma-data на диске сервера ]  &lt;- переживёт удаление контейнера
+</pre>
+
+<h2 id="cmd">4. Управление контейнерами</h2>
+<pre>
+docker ps                 # какие контейнеры работают
+docker ps -a              # все, включая остановленные и упавшие
+docker logs kuma          # что пишет программа — ошибки ищи тут
+docker logs -f kuma       # лог вживую (выход: Ctrl+C)
+docker stop kuma          # остановить
+docker start kuma         # запустить снова
+docker restart kuma       # перезапустить
+docker rm -f kuma         # удалить контейнер (том с данными останется)
+docker exec -it kuma sh   # зайти внутрь, как по SSH (выход: exit)
+docker inspect kuma       # все настройки контейнера: IP, тома, переменные
+docker stats              # кто сколько ест CPU и памяти (выход: Ctrl+C)
+docker images             # скачанные образы
+docker run --rm -it alpine sh   # разовый Linux «потрогать»; после exit удалится сам
+</pre>
+<p>Как читать <code>docker ps</code> (колонки сокращены):</p>
+<pre>
+IMAGE                    STATUS         PORTS                    NAMES
+louislam/uptime-kuma:1   Up 5 minutes   0.0.0.0:3001->3001/tcp   kuma
+</pre>
+<ul>
+<li><b>Up</b> — работает. <b>Exited (1)</b> — упал, смотри <code>docker logs kuma</code>. <b>Restarting</b> — падает и поднимается по кругу, тоже смотри логи.</li>
+<li><b>0.0.0.0:3001-&gt;3001</b> — порт 3001 сервера открыт для всех и ведёт в контейнер.</li>
+</ul>
+
+<h2 id="data">5. Данные и обновление</h2>
+<p>Контейнер одноразовый: удалил — всё, что программа записала внутрь, пропало. Поэтому папку с данными всегда выносят наружу флагом <code>-v</code>:</p>
+<pre>
+-v kuma-data:/app/data                     # том: Docker хранит данные сам
+-v ./site:/usr/share/nginx/html:ro         # твоя папка — внутрь контейнера
+-v ./nginx.conf:/etc/nginx/nginx.conf:ro   # или один файл: так подкладывают конфиги
+</pre>
+<p>Слева — что с сервера, справа — куда внутри контейнера (это смотри на странице образа на Docker Hub). <code>:ro</code> — контейнер может только читать. Правило: данные программы (базы, загрузки) — в том, свои файлы и конфиги — папкой или файлом.</p>
+<p>Обновление сервиса на новую версию — данные в томе не пострадают:</p>
+<pre>
+docker pull louislam/uptime-kuma:1   # скачать свежий образ
+docker rm -f kuma                    # удалить старый контейнер
+docker run -d --name kuma ...        # та же команда, что при первом запуске
+</pre>
+<p>Чтобы не держать длинные команды в голове, постоянные сервисы описывают файлом — см. <a href="#compose">Compose</a>.</p>
+<pre>
+docker volume ls             # список томов
+docker volume rm kuma-data   # ⚠ удалить том = удалить данные навсегда
+</pre>
+
+<h2 id="net">6. Порты и сеть</h2>
+<pre>
+-p 8080:80              # слева порт СЕРВЕРА, справа порт КОНТЕЙНЕРА
+-p 127.0.0.1:8080:80    # открыть только для самого сервера, не для сети
+-p 53:53/udp            # UDP-порт: допиши /udp
+</pre>
+<ul>
+<li>Без <code>-p</code> снаружи до программы в контейнере не достучаться.</li>
+<li>Слева — любой свободный порт: два nginx можно запустить как <code>-p 8081:80</code> и <code>-p 8082:80</code>. Порт справа смотри на странице образа.</li>
+<li class="w">⚠ Docker открывает порты в обход ufw/firewalld. Не хочешь светить сервис в сеть — пиши <code>127.0.0.1:</code> или не публикуй порт.</li>
+<li><code>localhost</code> внутри контейнера — это сам контейнер, а не сервер.</li>
+</ul>
+<p>Контейнеры общаются между собой через свою сеть — по именам, без IP. Пример: база PostgreSQL + веб-админка к ней.</p>
+<pre>
+docker network create mynet
+docker run -d --name db --network mynet -e POSTGRES_PASSWORD=secret postgres:16
+docker run -d --name adminer --network mynet -p 8080:8080 adminer:4
+# в Adminer (http://сервер:8080): система PostgreSQL, сервер db, логин postgres, пароль secret
+docker rm -f db adminer      # убрать за собой
+</pre>
+<ul>
+<li><code>-e ИМЯ=значение</code> — настройка программы через переменную (тут пароль базы).</li>
+<li>Без своей сети (<code>--network</code>) имена не работают. Compose создаёт такую сеть сам.</li>
+</ul>
+<h3>Частный случай: сетевые сервисы</h3>
+<pre>
+docker run -d --name iperf -p 5201:5201 -p 5201:5201/udp networkstatic/iperf3 -s   # сервер замера скорости
+docker run --rm -it nicolaka/netshoot     # набор утилит: ping, mtr, dig, tcpdump, nmap, iperf3
+</pre>
+<ul>
+<li><code>--network host</code> — контейнер работает прямо на сетевых интерфейсах сервера: без <code>-p</code> и без NAT. Нужно для DHCP, multicast и программ с кучей портов. Только Linux.</li>
+<li><b>macvlan</b> — у контейнера свой MAC и IP в локальной сети, как у отдельного компьютера: <code>docker network create -d macvlan --subnet 192.168.1.0/24 --gateway 192.168.1.1 -o parent=eth0 lan</code>, затем <code>docker run --network lan --ip 192.168.1.50 ...</code>. Сам сервер до такого контейнера напрямую не достучится — так устроен macvlan.</li>
+<li>Под капотом: <code>-p</code> — это DNAT на сервере, выход контейнеров наружу — PAT (masquerade) за IP сервера, контейнеры сидят в bridge-сетях 172.17.0.0/16 и дальше. Правила: <code>sudo iptables -t nat -nL DOCKER</code>.</li>
+</ul>
+
+<h2 id="any">7. Как запустить любой сервис</h2>
+<ol>
+<li>Найди образ на hub.docker.com. Бери с пометкой Docker Official Image или Verified Publisher, либо тот, на который ссылается документация самой программы.</li>
+<li>На странице образа найди три вещи: <b>порт</b> веб-интерфейса, <b>папку данных</b>, <b>переменные</b> (пароль админа и т.п.).</li>
+<li>Собери команду по шаблону из <a href="#first">раздела 3</a>.</li>
+<li>Большие программы (Nextcloud, WordPress, Zabbix) обычно дают в документации готовый <code>compose.yaml</code> — бери его и запускай по <a href="#compose">разделу 9</a>.</li>
+</ol>
+<p>Пример — Grafana: порт 3000, данные в <code>/var/lib/grafana</code>, пароль админа в переменной <code>GF_SECURITY_ADMIN_PASSWORD</code>.</p>
+<pre>
+docker run -d --name grafana -p 3000:3000 -v grafana-data:/var/lib/grafana -e GF_SECURITY_ADMIN_PASSWORD=MyPass123 --restart unless-stopped grafana/grafana
+# открыть http://сервер:3000, логин admin (без переменной пароль тоже admin)
+# без тега скачается последняя версия; для прода укажи версию из вкладки Tags
+</pre>
+<p>Порты, папки и переменные популярных образов:</p>
+<pre>
+образ              порт   папка данных               переменные
+postgres:16        5432   /var/lib/postgresql/data   POSTGRES_PASSWORD (обязательна)
+mysql:8.4          3306   /var/lib/mysql             MYSQL_ROOT_PASSWORD (обязательна)
+redis:7            6379   /data                      -
+mongo:7            27017  /data/db                   -
+nginx              80     /usr/share/nginx/html      -
+grafana/grafana    3000   /var/lib/grafana           GF_SECURITY_ADMIN_PASSWORD
+nextcloud          80     /var/www/html              -
+</pre>
+
+<h2 id="build">8. Свой образ: Dockerfile</h2>
+<p>Нужен, чтобы упаковать свою программу: собрал образ один раз — и он запускается одной командой на любом компьютере с Docker. Пример — маленький веб-сервер на Python. Сам Python ставить не надо: он будет внутри образа. Создай папку <code>hello</code> и в ней три файла.</p>
+<p><code>app.py</code> — сама программа:</p>
+<pre>
+from flask import Flask
+app = Flask(__name__)
+
+@app.route("/")
+def index():
+    return "Привет из контейнера!"
+
+app.run(host="0.0.0.0", port=8000)
+</pre>
+<p><code>requirements.txt</code> — какие библиотеки нужны:</p>
+<pre>
+flask
+</pre>
+<p><code>Dockerfile</code> — рецепт сборки образа:</p>
+<pre>
+FROM python:3.12-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY . .
+CMD ["python", "app.py"]
+</pre>
+<p>Что делает каждая строка:</p>
+<pre>
+FROM python:3.12-slim       взять за основу готовый образ, где уже есть Python
+WORKDIR /app                дальше всё делать в папке /app внутри образа
+COPY requirements.txt .     скопировать туда список библиотек
+RUN pip install ...         выполнить команду при сборке: поставить библиотеки
+COPY . .                    скопировать весь проект
+CMD ["python", "app.py"]    что запускать, когда стартует контейнер
+</pre>
+<p>Собрать и запустить (команды — из папки <code>hello</code>):</p>
+<pre>
+docker build -t hello:1.0 .                         # собрать образ hello версии 1.0; точка = эта папка
+docker run -d --name hello -p 8000:8000 hello:1.0   # открой http://localhost:8000
+</pre>
+<ul>
+<li>Поменял код — собери новую версию (<code>docker build -t hello:1.1 .</code>), удали старый контейнер и запусти новый.</li>
+<li><code>RUN</code> выполняется один раз при сборке, <code>CMD</code> — при каждом запуске контейнера.</li>
+<li>Библиотеки ставятся до копирования кода специально: Docker запоминает готовые шаги, и после правки кода пересборка занимает секунды.</li>
+<li>Программа должна слушать <code>0.0.0.0</code>, а не <code>127.0.0.1</code> — иначе снаружи контейнера её не видно.</li>
+<li>Файл <code>.dockerignore</code> (как .gitignore) — что не копировать в образ: <code>.git</code>, <code>.venv</code>, файлы с паролями.</li>
+</ul>
+<p>Чужой проект с GitHub, в котором уже есть Dockerfile, собирается так же:</p>
+<pre>
+git clone https://github.com/автор/проект.git
+cd проект
+docker build -t проект .
+</pre>
+<p>Перенести образ на сервер — через Docker Hub (бесплатный аккаунт на hub.docker.com):</p>
+<pre>
+docker login                           # войти в аккаунт
+docker tag hello:1.0 ЛОГИН/hello:1.0   # имя для Docker Hub: логин/образ:версия
+docker push ЛОГИН/hello:1.0            # загрузить
+# на сервере: docker run -d -p 8000:8000 ЛОГИН/hello:1.0
+</pre>
+
+<h2 id="compose">9. Docker Compose: всё одной командой</h2>
+<p>Длинные <code>docker run</code> неудобно помнить и повторять. Compose — те же настройки, только записанные в файл <code>compose.yaml</code>. Сервисы из одного файла сами видят друг друга по имени.</p>
+<pre>
+docker run                     compose.yaml
+--name db                      services: -> db:
+-p 8080:80                     ports: - "8080:80"
+-v db-data:/var/lib/mysql      volumes: - db-data:/var/lib/mysql
+-e KEY=value                   environment: KEY: value
+--restart unless-stopped       restart: unless-stopped
+--network ...                  не нужно: общая сеть создаётся сама
+</pre>
+<p>Пример: сайт на WordPress с базой MySQL. Создай папку <code>blog</code>, в ней файл <code>compose.yaml</code>:</p>
+<pre>
+services:
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wp
+      MYSQL_PASSWORD: ${DB_PASS}
+    volumes:
+      - db-data:/var/lib/mysql
+    restart: unless-stopped
+
+  wordpress:
+    image: wordpress:6
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wp
+      WORDPRESS_DB_PASSWORD: ${DB_PASS}
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wp-data:/var/www/html
+    depends_on:
+      - db
+    restart: unless-stopped
+
+volumes:
+  db-data:
+  wp-data:
+</pre>
+<p>Рядом файл <code>.env</code> с паролями (придумай свои, в git его не клади):</p>
+<pre>
+DB_ROOT_PASS=RootPass123
+DB_PASS=WpPass123
+</pre>
+<pre>
+docker compose up -d       # поднять всё (команды — из папки blog)
+docker compose ps          # что запущено
+docker compose logs -f     # логи всех сервисов (выход: Ctrl+C)
+docker compose down        # удалить контейнеры (данные в томах живы)
+docker compose down -v     # ⚠ то же + удалить тома = сайт и база пропадут
+</pre>
+<p>Открой http://localhost:8080 — там установщик WordPress. Пишет «Error establishing a database connection» — подожди полминуты, база ещё стартует.</p>
+<ul>
+<li><code>WORDPRESS_DB_HOST: db</code> — WordPress находит базу просто по имени сервиса.</li>
+<li><code>${DB_PASS}</code> подставляется из файла .env.</li>
+<li>Отступы в YAML — только пробелами, табы ломают файл.</li>
+<li>Поменял compose.yaml — снова <code>docker compose up -d</code>: пересоздастся только изменённое.</li>
+<li>Обновить всё: <code>docker compose pull</code>, затем <code>docker compose up -d</code>.</li>
+<li><code>docker-compose</code> через дефис — старая версия, сейчас пишут <code>docker compose</code>. Строка <code>version:</code> в начале файла больше не нужна.</li>
+</ul>
+
+<h2 id="clean">10. Уборка места</h2>
+<p>Docker со временем копит старые образы и остановленные контейнеры, и диск заканчивается. Раз в месяц:</p>
+<pre>
+docker system df           # сколько места занято
+docker system prune -a     # удалить всё неиспользуемое: остановленные контейнеры, лишние образы, кеш сборки
+</pre>
+<p>Тома с данными эта команда не трогает. Неиспользуемые тома удаляет <code>docker volume prune -a</code> — <span class="w">⚠ это данные, только если точно не нужны.</span></p>
+
+<h2 id="debug">11. Если что-то не работает</h2>
+<p>Первым делом всегда:</p>
+<pre>
+docker ps -a       # контейнер работает (Up) или упал (Exited)?
+docker logs имя    # причина почти всегда в последних строках лога
+</pre>
+<ul>
+<li><b>Exited (0) сразу после запуска</b> — не ошибка: программа внутри просто закончила работу. Контейнер живёт, пока работает его главная программа.</li>
+<li><b>Exited (1) или Restarting</b> — программа падает, читай <code>docker logs</code>. Частые причины: не задан обязательный пароль (<code>-e</code>), ошибка в конфиге, нет прав на папку.</li>
+<li><b>Exited (137)</b> — не хватило памяти или контейнер убили принудительно. Проверь <code>docker stats</code>.</li>
+<li><b>port is already allocated</b> — порт на сервере уже занят другим контейнером или программой. Возьми другой слева: <code>-p 8081:80</code>.</li>
+<li><b>container name "/kuma" is already in use</b> — контейнер с таким именем уже есть: <code>docker rm -f kuma</code> или выбери другое имя.</li>
+<li><b>Страница не открывается</b> → контейнер в статусе Up? В колонке PORTS есть твой порт? Открываешь левый порт из <code>-p</code>? Firewall сервера или облака пропускает этот порт?</li>
+<li><b>Контейнер не видит другой</b> → обращайся по имени контейнера или сервиса, а не через <code>localhost</code>; оба должны быть в одной сети (в Compose — всегда).</li>
+<li><b>Нет интернета внутри</b> → <code>docker run --rm alpine ping -c 2 8.8.8.8</code>. IP пингуется, а сайты по имени нет — проблема DNS: добавь <code>--dns 8.8.8.8</code>. Не пингуется ничего после правки firewall — <code>sudo systemctl restart docker</code>.</li>
+<li><b>Не скачиваются образы</b> (timeout, 403, 429 toomanyrequests) → Docker Hub недоступен или упёрся в лимит: <code>docker login</code> или зеркало в daemon.json: <code>"registry-mirrors": ["https://mirror.gcr.io"]</code>.</li>
+<li><b>permission denied … docker.sock</b> → пользователь не в группе docker: см. <a href="#install">установку</a>, перелогинься.</li>
+<li><b>No space left on device</b> → <a href="#clean">уборка</a>.</li>
+<li><b>После установки Docker пропал доступ к части локальной сети</b> → Docker занял подсеть 172.17–172.31.x.x или 192.168.x.x, которая совпала с вашей. Задай свои подсети в daemon.json и перезапусти Docker:
+<pre>
+{
+  "bip": "10.200.0.1/24",
+  "default-address-pools": [{"base": "10.201.0.0/16", "size": 24}]
+}
+</pre></li>
+<li><b>Через VPN из контейнера «виснет» HTTPS</b> → уменьши MTU сети: <code>docker network create -o com.docker.network.driver.mtu=1400 mynet</code>.</li>
+</ul>
+<p><b>daemon.json</b> — файл настроек Docker: на Linux <code>/etc/docker/daemon.json</code> (все настройки — в одном JSON), в Docker Desktop — Settings → Docker Engine. После правки: <code>sudo systemctl restart docker</code>.</p>
+<p>Сетевые проблемы удобно смотреть изнутри: <code>docker run --rm -it --network container:web nicolaka/netshoot</code> — набор утилит (ping, curl, dig, tcpdump) прямо в сети контейнера web.</p>
+
+<h2 id="safe">12. Безопасность: 5 правил</h2>
+<ol>
+<li><b>Не открывай лишнего наружу.</b> Базы (5432, 3306, 6379, 27017) в интернет не публикуй — боты находят открытые базы очень быстро. Нужно только самому серверу — <code>-p 127.0.0.1:5432:5432</code>; нужно другим контейнерам — вообще без <code>-p</code>, через общую сеть.</li>
+<li><b>Пароли — в файле .env</b>, а не в командах, Dockerfile или git. Всё, что попало в образ, из него можно достать.</li>
+<li><b>Образы — официальные или от автора программы</b>, с версией в теге: <code>postgres:16</code>, а не просто <code>postgres</code>.</li>
+<li><b>Группа docker = права root.</b> Не давай её кому попало; не пробрасывай в контейнеры <code>/var/run/docker.sock</code> и не запускай с <code>--privileged</code>, если не понимаешь зачем.</li>
+<li><b>Обновляйся:</b> <code>docker compose pull</code>, затем <code>docker compose up -d</code>.</li>
+</ol>
+
+<h2 id="lab">13. Практика</h2>
+<p>Сделай по порядку: сначала сам, потом сверься с решением.</p>
+<p><b>1.</b> Запусти nginx на порту 8081, открой страницу в браузере, посмотри лог, удали контейнер.</p>
+<details><summary>Решение</summary><pre>
+docker run -d --name t1 -p 8081:80 nginx
+# открыть http://localhost:8081
+docker logs t1
+docker rm -f t1
+</pre></details>
+<p><b>2.</b> Создай папку <code>site</code> с файлом <code>index.html</code> (текст: Hello Docker) и покажи её через nginx на порту 8082. Поменяй текст в файле и обнови страницу, контейнер не трогай.</p>
+<details><summary>Решение</summary><pre>
+docker run -d --name t2 -p 8082:80 -v ./site:/usr/share/nginx/html:ro nginx
+</pre></details>
+<p><b>3.</b> Запусти PostgreSQL с томом, создай таблицу, удали контейнер, запусти новый с тем же томом — таблица должна остаться.</p>
+<details><summary>Решение</summary><pre>
+docker run -d --name pg -e POSTGRES_PASSWORD=pass -v pgdata:/var/lib/postgresql/data postgres:16
+# подожди ~5 секунд, пока база стартует
+docker exec pg psql -U postgres -c "create table t(x int); insert into t values (42);"
+docker rm -f pg
+docker run -d --name pg -e POSTGRES_PASSWORD=pass -v pgdata:/var/lib/postgresql/data postgres:16
+docker exec pg psql -U postgres -c "select * from t;"   # 42 на месте
+</pre></details>
+<p><b>4.</b> Создай сеть <code>lab</code>, запусти в ней nginx с именем <code>lab-web</code> и открой его страницу по имени из другого контейнера.</p>
+<details><summary>Решение</summary><pre>
+docker network create lab
+docker run -d --name lab-web --network lab nginx
+docker run --rm --network lab alpine wget -qO- lab-web   # выведет HTML страницы nginx
+</pre></details>
+<p><b>5.</b> Собери образ из <a href="#build">раздела 8</a> и запусти. Поменяй текст в app.py, собери версию 1.1 и замени ею работающий контейнер.</p>
+<details><summary>Решение</summary><pre>
+# в папке hello:
+docker build -t hello:1.0 .
+docker run -d --name hello -p 8000:8000 hello:1.0
+# поменял app.py:
+docker build -t hello:1.1 .
+docker rm -f hello
+docker run -d --name hello -p 8000:8000 hello:1.1
+</pre></details>
+<p><b>6.</b> Подними WordPress из <a href="#compose">раздела 9</a> и напиши запись. Сделай <code>docker compose down</code> и <code>up -d</code> — запись на месте. Сделай <code>down -v</code> и <code>up -d</code> — сайт пустой. Почему?</p>
+<details><summary>Ответ</summary><code>down</code> удаляет только контейнеры, а данные живут в томах. <code>down -v</code> удаляет и тома.</details>
+<p><b>7.</b> Убери за собой всё, что создал.</p>
+<details><summary>Решение</summary><pre>
+docker rm -f t2 pg lab-web hello
+docker network rm lab
+docker volume rm pgdata
+docker compose down -v      # в папке blog
+docker system prune -a
+</pre></details>
+
+<h3>Самопроверка</h3>
+<details><summary>Чем образ отличается от контейнера?</summary>Образ — как установщик, контейнер — запущенная из него программа. Из одного образа можно запустить сколько угодно контейнеров.</details>
+<details><summary>Пересоздал контейнер с базой — данные пропали. Почему?</summary>Данные писались внутрь контейнера. Папку данных надо держать в томе: <code>-v pgdata:/var/lib/postgresql/data</code>.</details>
+<details><summary>В <code>-p 8080:80</code> какой порт чей?</summary>Слева сервер, справа контейнер. В браузере открываешь 8080.</details>
+<details><summary>Контейнер сразу завершился с Exited (0). Это ошибка?</summary>Нет: программа внутри просто закончила работу. Контейнер живёт, пока работает его главная программа.</details>
+<details><summary>Контейнеры не находят друг друга по имени. Почему?</summary>Они не в одной своей сети. Создай сеть (<code>docker network create</code>) или используй Compose.</details>
+<details><summary>Чем RUN отличается от CMD?</summary>RUN выполняется один раз при сборке образа, CMD — при каждом запуске контейнера.</details>
+<details><summary>Зачем Compose, если есть docker run?</summary>Все настройки в одном файле: не надо помнить длинные команды, весь набор сервисов поднимается и обновляется одной командой.</details>
+<details><summary>ufw закрыт, а порт контейнера доступен из сети. Почему?</summary>Docker сам прописывает правила firewall для <code>-p</code>, и трафик идёт мимо правил ufw. Публикуй на 127.0.0.1 или не публикуй порт вовсе.</details>
+<details><summary>Как обновить сервис на новую версию?</summary><code>docker compose pull</code>, затем <code>docker compose up -d</code>. Данные в томах сохранятся.</details>
+<p>Дальше, когда понадобится: multi-stage сборка (маленькие образы), healthcheck (Docker сам проверяет, жив ли сервис), Kubernetes (когда серверов много).</p>
+</main>
+<footer><a href="privacy.html#owner">Владелец сайта и оператор персональных данных</a> · <a href="mailto:mss777@mail.ru">mss777@mail.ru</a> · <a href="privacy.html">Политика обработки персональных данных</a> · Сайт не содержит рекламы, «erid» не требуется.</footer>
+</body>
+</html>
